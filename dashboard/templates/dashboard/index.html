@@ -1,0 +1,94 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+    <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Leads</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">256</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Currency</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">76.5724</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-info h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                    </div>
+                    <div class="col">
+                      <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% for board in boards %}
+        <article class="media content-section">
+<!--          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">-->
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">Author</a>
+              <small class="text-muted">15 July 2020</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ board }}</a></h2>
+            <p class="article-content">content</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
