@@ -1,0 +1,78 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+    <article class="media content-section">
+<!--      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">-->
+      <div class="media-body">
+<!--        <div class="article-metadata">-->
+<!--          <a class="mr-2" href="{% url 'leads:companies' %}">←</a><small class="text-muted">Company Profile</small>-->
+<!--        </div>-->
+        <h3>{{ project.code }}</h3>
+          {% load humanize %}
+          <small><strong class="text-success">€ {{ project.volume|intcomma }}</strong></small>
+        <p class="article-content">
+          {{ project.description }}
+          <!--        DISCOUNT TABLE-->
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th scope="col">Product group</th>
+                      <th scope="col">Discount</th>
+                      <th scope="col">Status</th>
+<!--                      <th scope="col">Class</th>-->
+                  </tr>
+              </thead>
+              <tbody>
+              {% for discount in company.discounts.all %}
+              <tr>
+                  <td>{{ discount.product_group.description }}</td>
+                  <th scope="row">{{ discount.value }} %</th>
+                  <td>{{ discount.status }}({{ discount.turnover_class }})</td>
+<!--                  <td>{{ discount.turnover_class }}</td>-->
+              </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+          <hr>
+        <strong>History</strong>
+          <a href="{% url 'business:event-create' %}" class="ml-2" type="submit">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+                  <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+                  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              </svg>
+          </a>
+            {% if project.event_set.all %}
+                <div class="container">
+                    <div class="row">
+                        <div class="mt-1 mr-5">
+                            <ul class="timeline">
+                                {% for event in project.event_set.all reversed %}
+                                <li>
+                                    <a href="#">{{ event.title }}</a>
+                                    <span class="float-right text-muted">{{ event.date|date:'F d, Y' }}</span>
+                                    <p>{{ event.description }}</p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+<!--                <ul class="list-group pt-2">-->
+<!--                  {% for event in company.event_set.all reversed %}-->
+<!--                    <span class="text-muted mb-1">{{ event.date|date:'F d, Y' }} - {{ event.title }}</span>-->
+<!--                    <li class="list-group-item">-->
+<!--                        {{ event.description }}-->
+<!--                    </li>-->
+<!--                    <br>-->
+<!--                  {% endfor %}-->
+<!--                </ul>-->
+            {% endif %}
+      </div>
+    </article>
+    <!--    {% if user == object.author %}-->
+          <div>
+            <a class="btn btn-outline-secondary" href="#">Update</a>
+            <a class="btn btn-outline-danger" href="#">Delete</a>
+          </div>
+<!--    {% endif %}-->
+{% endblock content %}

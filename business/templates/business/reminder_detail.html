@@ -1,0 +1,26 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+    <article class="media content-section">
+<!--      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">-->
+      <div class="media-body">
+<!--        <div class="article-metadata">-->
+<!--          <a class="mr-2" href="{% url 'leads:companies' %}">←</a><small class="text-muted">Company Profile</small>-->
+<!--        </div>-->
+        <h2>{{ reminder.task }}</h2>
+        <span class="text-danger">Due date: {{ reminder.due_time|date:"d.m.Y" }}</span><br>
+        <span class="text-danger">Due time: {{ reminder.due_time|date:"H:m" }}</span>
+        {% if reminder.description %}
+        <p class="article-content">
+            {{ reminder.description }}
+            {{ task.company_set.all }}
+        </p>
+        {% endif %}
+      </div>
+    </article>
+    <!--    {% if user == object.author %}-->
+          <div>
+            <a class="btn btn-outline-secondary" href="#">Update</a>
+            <a class="btn btn-outline-danger" href="#">Delete</a>
+          </div>
+<!--    {% endif %}-->
+{% endblock content %}

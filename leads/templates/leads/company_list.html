@@ -1,0 +1,65 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<form class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
+  <a href="{% url 'leads:companies-create' %}" class="mr-3">
+    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+      <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    </svg>
+  </a>
+  <input class="form-control flex-fill w-auto" type="text" placeholder="Search" aria-label="Search">
+</form>
+<!--<div class="md-form active-cyan-2 mb-3">-->
+<!--  <input class="form-control mr-auto" type="text" placeholder="Search" aria-label="Search">-->
+<!--  <a href="{% url 'leads:companies-create' %}" class="btn btn-outline-info btn-sm my-0">Create</a>-->
+<!--</div>-->
+<!--<button type="submit" class="btn btn-primary mb-2">Confirm identity</button>-->
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Company</th>
+      <th scope="col">Contact</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for company in company_list %}
+        <tr>
+          <td scope="row"><a href="{% url 'leads:detail' company.pk %}">{{ company.title }}, {{ company.legal_form }}</a></td>
+          <td>
+            {% if company.person_set.all.first.pk %}
+              <a href="{% url 'leads:person-detail' company.person_set.all.first.pk %}" class="text-secondary">
+                {{ company.person_set.all.first }}
+              </a>
+            {% endif %}
+          </td>
+          <td>
+            {% if company.status|stringformat:"s" == "Active" %}
+              <span class="text-success">{{ company.status }}</span>
+            {% else %}
+              <span class="text-danger">{{ company.status }}</span>
+            {% endif %}
+          </td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock content %}

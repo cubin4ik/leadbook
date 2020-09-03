@@ -1,0 +1,25 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Task</th>
+      <th scope="col">Company</th>
+      <th scope="col">Due time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reminder in reminder_list %}
+      {% if not reminder.done %}
+        <tr>
+          <td><a href="{% url 'business:reminder-detail' reminder.pk %}">{{ reminder.task }}</a></td>
+            {% if reminder.company %}
+              <td><a href="{% url 'leads:detail' reminder.company.pk %}" class="text-muted">{{ reminder.company }}</a></td>
+            {% endif %}
+          <td class="text-muted">{{ reminder.due_time|date:"H:m d.m.Y" }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

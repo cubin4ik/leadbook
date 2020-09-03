@@ -1,4 +1,25 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
-    <h1>This is a Leads page!</h1>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Company</th>
+      <th scope="col">Legal form</th>
+      <th scope="col">Contact</th>
+      <th scope="col">In partnership</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for company in companies_list %}
+        <tr>
+          <th scope="row">{{ company.id }}</th>
+          <td><a href="{% url 'leads:detail' company.pk %}">{{ company.title }}</a></td>
+          <td>{{ company.legal_form }}</td>
+          <td><a href="#" class="text-secondary">{{ company.person_set.all.first }}</a></td>
+          <td>{{ company.status }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock content %}
