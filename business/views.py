@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.views import generic
 from datetime import datetime, timedelta
 from .models import Project, Reminder, Event
@@ -85,3 +86,9 @@ class ReminderList(generic.ListView):
 
 class ReminderDetail(generic.DetailView):
     model = Reminder
+
+
+class ReminderDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+    model = Reminder
+    success_url = reverse_lazy("business:reminder-list")
+    success_message = "The reminder has been successfully deleted."
