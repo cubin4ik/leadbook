@@ -1,50 +1,60 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
 <form class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
-  <a href="{% url 'business:project-create' %}" class="mr-3">
-    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-      <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-    </svg>
-  </a>
-  <input class="form-control flex-fill w-auto" type="text" placeholder="Search" aria-label="Search">
+    <a href="{% url 'business:project-create' %}" class="mr-3">
+        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        </svg>
+    </a>
+    <input class="form-control flex-fill w-auto" type="text" placeholder="Search" aria-label="Search">
 </form>
 <table class="table table-hover">
-  <thead>
+    <thead>
     <tr>
-      <th scope="col">Code</th>
-      <th scope="col">Supplier</th>
-<!--      <th scope="col">Location</th>-->
-      <th scope="col">Status</th>
+        <th scope="col">Code</th>
+        <th scope="col">Contractor</th>
+        <th scope="col">Status</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     {% for project in project_list %}
-        <tr>
-          <td><a href="{% url 'business:project-detail' project.pk %}">{{ project.code }}</a></td>
-          <td><a class="text-muted" href="{% url 'leads:detail' project.company_supplier.pk %}">{{ project.company_supplier }}</a></td>
-<!--          <td>{{ project.location }}</td>-->
-          <td>{{ project.status }}</td>
-        </tr>
+    <tr>
+        <td><a href="{% url 'business:project-detail' project.pk %}" class="text-dark">{{ project }}</a></td>
+        <td><a class="text-muted" href="{% url 'leads:detail' project.company_contractor.pk %}">{{ project.company_contractor }}</a></td>
+        <td>
+            {% if project.status|stringformat:"s" == "Completed" %}
+            <span class="text-success">{{ project.status }}</span>
+            {% elif project.status|stringformat:"s" == "Canceled" %}
+            <span class="text-danger">{{ project.status }}</span>
+            {% else %}
+            <span class="text-warning">{{ project.status }}</span>
+            {% endif %}
+        </td>
+    </tr>
     {% endfor %}
-  </tbody>
+    </tbody>
 </table>
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
+{% if is_paginated %}
+<hr>
+{% if page_obj.has_previous %}
+<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
+{% for num in page_obj.paginator.page_range %}
+{% if page_obj.number == num %}
+<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+{% if page_obj.has_next %}
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+{% endif %}
+
+{% endif %}
 {% endblock content %}

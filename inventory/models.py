@@ -22,7 +22,6 @@ class Discount(models.Model):
     status = models.CharField(max_length=45)
     turnover_class = models.CharField(max_length=45)
     product_group = models.ForeignKey("ProductGroup", on_delete=models.CASCADE)
-
     value = models.IntegerField()
 
     class Meta:
