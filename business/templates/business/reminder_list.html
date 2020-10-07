@@ -20,6 +20,7 @@
     </thead>
     <tbody>
     {% for reminder in reminder_list %}
+    {% if reminder.manager == user %}
     {% if not reminder.done %}
     <tr class="task-item {{ reminder.get_importance_display }}">
         <td>
@@ -33,6 +34,7 @@
         <td class="text-muted">{{ reminder.due_time|date:"d M Y" }}</td>
         <td class="text-muted"><input type="checkbox" id="reminder{{ reminder.id }}" name="reminder{{ reminder.id }}" value="True"></td>
     </tr>
+    {% endif %}
     {% endif %}
     {% endfor %}
     </tbody>

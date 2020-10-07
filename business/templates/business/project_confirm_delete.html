@@ -4,13 +4,13 @@
     <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Delete Reminder</legend>
-            <h3>Are you sure you want to delete the following reminder?</h3>
-            "{{ object.task }}"
+            <legend class="border-bottom mb-4">Delete Project</legend>
+            <h3>Are you sure you want to delete the following project?</h3>
+            "{{ object.code }}"
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
-            <a class="btn btn-outline-secondary" href="{% url 'business:reminder-detail' object.pk %}">Cancel</a>
+            <a class="btn btn-outline-secondary" href="{% url 'business:project-detail' object.pk %}">Cancel</a>
         </div>
     </form>
 </div>

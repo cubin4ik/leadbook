@@ -6,7 +6,7 @@ from inventory.models import Discount
 
 
 class CompanyList(generic.ListView):
-    paginate_by = 7
+    paginate_by = 15
     model = Company
     extra_context = {
         'title': "Leads"
@@ -16,8 +16,10 @@ class CompanyList(generic.ListView):
         if "title" in self.request.GET.keys():
             title = self.request.GET.get("title")
             object_list = self.model.objects.filter(title__icontains=title)
+            self.extra_context['query_request'] = title
         else:
             object_list = self.model.objects.all()
+            self.extra_context['query_request'] = ""
         return object_list
 
 

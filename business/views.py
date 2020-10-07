@@ -37,6 +37,12 @@ class ProjectUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView)
     success_message = "Project has been successfully updated"
 
 
+class ProjectDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+    model = Project
+    success_url = reverse_lazy("business:projects")
+    success_message = "The project has been successfully deleted."
+
+
 class EventCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Event
     fields = "__all__"
@@ -58,6 +64,12 @@ class EventUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Event
     fields = "__all__"
     success_message = "Event has been successfully updated"
+
+
+class EventDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+    model = Event
+    success_url = reverse_lazy("dashboard:home")
+    success_message = "The event has been successfully deleted."
 
 
 class ReminderCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):

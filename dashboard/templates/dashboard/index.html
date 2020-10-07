@@ -68,6 +68,20 @@
   <!--          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">-->
   <div class="media-body">
     <div class="article-metadata">
+      <h3>Consider getting in touch</h3>
+      <small class="text-muted">Companies performing low activity</small>
+    </div>
+    <p class="article-content">
+      {% for company in low_activity_leads %}
+      <a href="#">{{ company }}</a>
+      {% endfor %}
+    </p>
+  </div>
+</article>
+<article class="media content-section">
+  <!--          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">-->
+  <div class="media-body">
+    <div class="article-metadata">
       <h3>Recently viewed</h3>
       <small class="text-muted">Your recent activity on leadbook</small>
     </div>

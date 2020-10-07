@@ -118,14 +118,22 @@ class Email(models.Model):
         return f"{self.email} : {self.person.first_name} {self.person.last_name}: ({self.type})"
 
 
+class PhoneType(models.TextChoices):
+    MAIN = "MAIN", "main"
+    MOBILE = "MOB", "mobile"
+    WORK = "WRK", "work"
+    PERSONAL = "PRS", "personal"
+
+
 class Phone(models.Model):
     country_code = models.CharField(max_length=15)
     area_code = models.CharField(max_length=15)
     number = models.CharField(max_length=15)
     extension = models.CharField(max_length=15, null=True, blank=True)
+    type = models.CharField(max_length=4, choices=PhoneType.choices, default=PhoneType.MAIN)
 
     # foreign keys
-    type = models.ForeignKey("PhoneType", on_delete=models.SET_NULL, null=True)
+    # type = models.ForeignKey("PhoneType", on_delete=models.SET_NULL, null=True)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
     company = models.ForeignKey("Company", on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -140,11 +148,11 @@ class Phone(models.Model):
                f" {self.person.first_name} {self.person.last_name} ({self.type})"
 
 
-class PhoneType(models.Model):
-    type = models.CharField(max_length=45)
-
-    def __str__(self):
-        return self.type
+# class PhoneType(models.Model):
+#     type = models.CharField(max_length=45)
+#
+#     def __str__(self):
+#         return self.type
 
 
 class Address(models.Model):
