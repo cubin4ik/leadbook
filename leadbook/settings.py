@@ -94,11 +94,9 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'leadbook',
-        'USER': 'django_leadbook',
-        'PASSWORD': 'P1nt@123',  # TODO: move to [OPTIONS]
-        'HOST': '',
-        'PORT': ''
+        'OPTIONS': {
+            'read_default_file': 'leadbook/db.cnf'
+        }
     }
 }
 

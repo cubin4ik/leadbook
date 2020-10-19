@@ -202,6 +202,7 @@ fabric.properties
 
 # leadbook
 /leadbook/key.txt
+/leadbook/db.cnf
 .idea/
 
 # leadbook .idea/
