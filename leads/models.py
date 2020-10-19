@@ -9,9 +9,11 @@ class PersonRole(models.TextChoices):
     GENERAL_MANAGER = "CEO", "Генеральный директор"
     EXECUTIVE_DIRECTOR = "EXD", "Исполнительный директор"
     DEPUTY_DIRECTOR = "DPD", "Заместитель директора"
+    DIRECTOR = "DIR", "Директор"
     SALES_DIRECTOR = "SAD", "Директор по продажам"
-    HEAD_OF_DEPARTMENT = "HDP", "Руководитель отдела"
+    HEAD_OF_DEPARTMENT = " ", "Руководитель отдела"
     ENGINEER = "ENG", "Инженер"
+    DESIGNER = "DES", "Проектировщик"
     EXPERT = "EXP", "Эксперт"
     PURCHASING_SPECIALIST = "PUR", "Специалист закупки"
     PROGRAMMER = "PRG", "Программист"
@@ -73,7 +75,7 @@ class Company(models.Model):
     manager = models.ForeignKey("accounts.User", null=True, on_delete=models.SET_NULL)
 
     class Meta:
-        unique_together = (("title", "legal_form", "about"),)
+        unique_together = (("title", "legal_form"),)
 
     def get_absolute_url(self):
         return reverse("leads:detail", args=[self.id])
@@ -131,7 +133,7 @@ class Phone(models.Model):
     area_code = models.CharField(max_length=15)
     number = models.CharField(max_length=15)
     extension = models.CharField(max_length=15, null=True, blank=True)
-    type = models.CharField(max_length=4, choices=PhoneType.choices, default=PhoneType.MAIN)
+    type = models.CharField(max_length=255, choices=PhoneType.choices, default=PhoneType.MAIN)
 
     # foreign keys
     # type = models.ForeignKey("PhoneType", on_delete=models.SET_NULL, null=True)

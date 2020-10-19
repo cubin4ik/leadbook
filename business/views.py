@@ -86,7 +86,7 @@ class ReminderCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView
         return context
 
 
-class ReminderUpdate(generic.UpdateView):
+class ReminderUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Reminder
     fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project"]
     success_message = "Reminder has been successfully updated"

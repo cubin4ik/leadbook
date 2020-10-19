@@ -87,9 +87,18 @@ WSGI_APPLICATION = 'leadbook.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'leadbook',
+        'USER': 'django_leadbook',
+        'PASSWORD': 'P1nt@123',  # TODO: move to [OPTIONS]
+        'HOST': '',
+        'PORT': ''
     }
 }
 
