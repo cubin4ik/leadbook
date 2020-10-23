@@ -11,7 +11,7 @@ from business.models import Reminder, Project
 def summary(request):
     return {
         "global_week": date.today().isocalendar()[1],
-        "global_currency": get_currency(),
+        "global_currency": 85,  # get_currency(),
         "global_tasks": get_tasks(),
         "global_tasks_done": get_tasks_done(),
         "global_projects": get_projects(),

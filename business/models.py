@@ -64,12 +64,13 @@ class Reminder(models.Model):  # TODO: rename to "Task"
     company = models.ForeignKey("leads.Company", on_delete=models.SET_NULL, null=True)
     person = models.ForeignKey("leads.Person", on_delete=models.SET_NULL, null=True, blank=True)
     project = models.ForeignKey("Project", on_delete=models.SET_NULL, null=True, blank=True)
-    manager = models.ForeignKey("accounts.User", null=True, on_delete=models.SET_NULL)
+    manager = models.ForeignKey("accounts.User", related_name="reminder_manager", null=True, on_delete=models.SET_NULL)
+    executor = models.ForeignKey("accounts.User", related_name="reminder_executor", null=True, on_delete=models.SET_NULL)
 
     class Meta:
         # sort by "the date" in descending order unless
         # overridden in the query with order_by()
-        ordering = ["-importance", "due_time"]
+        ordering = ["done", "-importance", "due_time"]
 
     def get_absolute_url(self):
         return reverse("business:reminder-detail", args=[self.id])

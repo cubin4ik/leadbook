@@ -8,10 +8,12 @@ class PersonRole(models.TextChoices):
     UNKNOWN = 'UNW', 'Неизвестно'
     GENERAL_MANAGER = "CEO", "Генеральный директор"
     EXECUTIVE_DIRECTOR = "EXD", "Исполнительный директор"
+    CHIEF_TECHNICAL_OFFICER = "CTO", "Технический директор"
     DEPUTY_DIRECTOR = "DPD", "Заместитель директора"
     DIRECTOR = "DIR", "Директор"
     SALES_DIRECTOR = "SAD", "Директор по продажам"
     HEAD_OF_DEPARTMENT = " ", "Руководитель отдела"
+    CHIEF_TECHNICAL_ENGINEER = "CTE", "Главный инженер"
     ENGINEER = "ENG", "Инженер"
     DESIGNER = "DES", "Проектировщик"
     EXPERT = "EXP", "Эксперт"

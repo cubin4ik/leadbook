@@ -12,7 +12,8 @@ from .views import (ProjectList,
                     EventDelete,
                     ReminderCreate,
                     ReminderUpdate,
-                    ReminderDelete)
+                    ReminderDelete,
+                    reminder_set_done)
 
 app_name = 'business'
 urlpatterns = [
@@ -29,5 +30,6 @@ urlpatterns = [
     path('reminders/new/', ReminderCreate.as_view(), name='reminder-create'),
     path('reminders/<int:pk>/', ReminderDetail.as_view(), name='reminder-detail'),
     path('reminders/<int:pk>/update', ReminderUpdate.as_view(), name='reminder-update'),
-    path('reminders/<int:pk>/delete', ReminderDelete.as_view(), name='reminder-delete')
+    path('reminders/<int:pk>/delete', ReminderDelete.as_view(), name='reminder-delete'),
+    path('reminders/<int:reminder_id>/done', reminder_set_done, name='reminder-done')
 ]

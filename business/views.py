@@ -1,6 +1,7 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from datetime import datetime, timedelta
 from .models import Project, Reminder, Event
@@ -74,10 +75,10 @@ class EventDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
 
 class ReminderCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Reminder
-    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "manager"]
+    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "executor"]
 
     def get_initial(self):
-        context = {"manager": self.request.user, "due_time": datetime.now() + timedelta(minutes=30)}
+        context = {"manager": self.request.user, "executor": self.request.user, "due_time": datetime.now() + timedelta(minutes=30)}
         print(context["manager"])
 
         for key, value in self.request.GET.items():
@@ -88,12 +89,24 @@ class ReminderCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView
 
 class ReminderUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Reminder
-    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project"]
+    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "executor"]
     success_message = "Reminder has been successfully updated"
 
 
 class ReminderList(generic.ListView):
     model = Reminder
+
+    def get_queryset(self):
+        object_list = self.model.objects.filter(executor=self.request.user) | self.model.objects.filter(manager=self.request.user)
+        if "task" in self.request.GET.keys():
+            task = self.request.GET["task"]
+            object_list = object_list.filter(task__icontains=task) | object_list.filter(description__icontains=task)
+            self.extra_context = {"query_request": task}
+
+            # TODO: Revise code below
+            if "mine" in self.request.GET.keys():
+                object_list = object_list.filter(executor=self.request.user)
+        return object_list
 
 
 class ReminderDetail(generic.DetailView):
@@ -104,3 +117,10 @@ class ReminderDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView
     model = Reminder
     success_url = reverse_lazy("business:reminder-list")
     success_message = "The reminder has been successfully deleted."
+
+
+def reminder_set_done(request, reminder_id):
+    reminder = get_object_or_404(Reminder, pk=reminder_id)
+    reminder.done = bool(request.POST['done'])
+    reminder.save()
+    return HttpResponseRedirect(request.POST['next'])

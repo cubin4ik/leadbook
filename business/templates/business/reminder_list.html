@@ -1,6 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
-<form class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
+<form method="GET" class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
     <a href="{% url 'business:reminder-create' %}" class="mr-3">
         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
@@ -8,8 +8,10 @@
             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
         </svg>
     </a>
-    <input class="form-control flex-fill w-auto" type="text" placeholder="Search" aria-label="Search">
+    <input class="form-control flex-fill w-auto" type="search" name="task" placeholder="{% if query_request %}{{ query_request }}{% else %}Search by title{% endif %}" aria-label="Search">
 </form>
+<input id="mine" type="checkbox" name="mine">
+<label for="mine">show only my tasks</label>
 <table class="table table-hover">
     <thead>
     <tr>
@@ -20,12 +22,10 @@
     </thead>
     <tbody>
     {% for reminder in reminder_list %}
-    {% if reminder.manager == user %}
-    {% if not reminder.done %}
     <tr class="task-item {{ reminder.get_importance_display }}">
         <td>
             <div class="mb-2">
-                <a href="{% url 'business:reminder-detail' reminder.pk %}" class="task-title text-muted">
+                <a href="{% url 'business:reminder-detail' reminder.pk %}" class="task-title text-muted" data-toggle="tooltip" data-placement="right" title="{{ reminder.description }}">
                     {{ reminder.task|capfirst }}
                 </a>
             </div>
@@ -33,13 +33,18 @@
         </td>
         <td class="text-muted">{{ reminder.due_time|date:"d M Y" }}</td>
         <td>
-            <div class="btn btn-outline-info">Complete</svg>
-            </div>
+            <form action="{% url 'business:reminder-done' reminder.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.build_absolute_uri }}">
+                {% if reminder.done %}
+                <button type="submit" name="done" value="" class="btn btn-outline-warning m-2 float-right">Uncomplete</button>
+                {% else %}
+                <button type="submit" name="done" value="True" class="btn btn-outline-success m-2 float-right">Complete</button>
+                {% endif %}
+            </form>
         </td>
-<!--        <td class="text-muted"><input type="checkbox" id="reminder{{ reminder.id }}" name="reminder{{ reminder.id }}" value="True"></td>-->
+        <!--        <td class="text-muted"><input type="checkbox" id="reminder{{ reminder.id }}" name="reminder{{ reminder.id }}" value="True"></td>-->
     </tr>
-    {% endif %}
-    {% endif %}
     {% endfor %}
     </tbody>
 </table>

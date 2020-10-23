@@ -15,7 +15,9 @@ class CompanyList(generic.ListView):
     def get_queryset(self):
         if "title" in self.request.GET.keys():
             title = self.request.GET.get("title")
-            object_list = self.model.objects.filter(title__icontains=title)
+            object_list = self.model.objects.filter(title__icontains=title) | self.model.objects.filter(about__icontains=title)
+            if not object_list:
+                object_list = self.model.objects.filter(person__first_name__icontains=title) | self.model.objects.filter(person__last_name__icontains=title)
             self.extra_context['query_request'] = title
         else:
             object_list = self.model.objects.all()

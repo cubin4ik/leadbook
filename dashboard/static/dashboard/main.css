@@ -217,3 +217,14 @@ ul.timeline > li:before {
 .Info {
     border-left-color: #4272d7;
 }
+.history .bi {
+    opacity: 0.5;
+}
+a.history {
+    text-decoration: none;
+    opacity: 0.5;
+}
+a.history:hover {
+    text-decoration: none;
+    opacity: 1;
+}
