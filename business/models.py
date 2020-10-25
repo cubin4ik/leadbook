@@ -90,10 +90,10 @@ class Project(models.Model):
 
     # foreign keys
     manager = models.ForeignKey("accounts.User", null=True, on_delete=models.SET_NULL)
-    company_contractor = models.ForeignKey("leads.Company", related_name="project_contractor", on_delete=models.SET_NULL, null=True)
-    company_integrator = models.ForeignKey("leads.Company", related_name="project_integrator", on_delete=models.SET_NULL, null=True, blank=True)
-    company_end_user = models.ForeignKey("leads.Company", related_name="project_end_user", on_delete=models.SET_NULL, null=True, blank=True)
-    # company = models.ManyToManyField("leads.Company", through="ProjectCompany")
+    # company_contractor = models.ForeignKey("leads.Company", related_name="project_contractor", on_delete=models.SET_NULL, null=True)
+    # company_integrator = models.ForeignKey("leads.Company", related_name="project_integrator", on_delete=models.SET_NULL, null=True, blank=True)
+    # company_end_user = models.ForeignKey("leads.Company", related_name="project_end_user", on_delete=models.SET_NULL, null=True, blank=True)
+    company = models.ManyToManyField("leads.Company", through="ProjectCompany")
     status = models.ForeignKey("ProjectStatus", on_delete=models.SET_NULL, null=True)
     stage = models.ForeignKey("ProjectStage", on_delete=models.SET_NULL, null=True)
 
@@ -107,10 +107,19 @@ class Project(models.Model):
         return f"{self.code} {self.location} ({self.short_description})"
 
 
-# class ProjectCompany(models.Model):
-#     project = models.ForeignKey("business.Project", on_delete=models.SET_NULL, null=True)
-#     company = models.ForeignKey("leads.Company", on_delete=models.SET_NULL, null=True)
-#     role = models.CharField(max_length=500)
+class ProjectCompanyRoleChoices(models.TextChoices):
+    CONTRACTOR = "CTR", "Contractor"
+    INTEGRATOR = "INT", "Integrator"
+    END_USER = "EUS", "End User"
+
+
+class ProjectCompany(models.Model):
+    project = models.ForeignKey("business.Project", on_delete=models.SET_NULL, null=True)
+    company = models.ForeignKey("leads.Company", on_delete=models.SET_NULL, null=True)
+    role = models.CharField(max_length=3, choices=ProjectCompanyRoleChoices.choices, default=ProjectCompanyRoleChoices.CONTRACTOR)
+
+    def __str__(self):
+        return f"{self.company}: {self.role} ({self.project})"
 
 
 # TODO: change project status and stage to choice class

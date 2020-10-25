@@ -37,7 +37,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.build_absolute_uri }}">
                 {% if reminder.done %}
-                <button type="submit" name="done" value="" class="btn btn-outline-warning m-2 float-right">Uncomplete</button>
+                <button type="submit" name="done" value="" class="btn btn-outline-warning m-2 float-right">Uncompleted</button>
                 {% else %}
                 <button type="submit" name="done" value="True" class="btn btn-outline-success m-2 float-right">Complete</button>
                 {% endif %}
