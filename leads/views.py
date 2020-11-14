@@ -2,6 +2,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .models import Company, Person, Phone, Email
+from .forms import PhoneCreateForm
 from inventory.models import Discount
 
 
@@ -94,8 +95,11 @@ class PersonUpdate(generic.UpdateView):
 
 class PhoneCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Phone
-    fields = "__all__"
+    form_class = PhoneCreateForm
     success_message = "New phone has been successfully created"
+    extra_context = {
+        'title': 'Create new phone number'
+    }
 
     def get_initial(self):
         context = {"country_code": 7}

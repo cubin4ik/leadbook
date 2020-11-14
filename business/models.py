@@ -2,21 +2,21 @@ from django.db import models
 from django.shortcuts import reverse
 
 
-class EventTitle(models.TextChoices):
-    PHONE = "TEL", "Phone call"
-    EMAIL = "EMAIL", "Email"
-    MEETING = "MEET", "Meeting"
-    SKYPE = "SKYPE", "Skype call"
-    CONFERENCE = "CONF", "Conference"
-    TRAIN = "TRAIN", "Training"
-    ORDER = "ORDER", "Order"
-    INCIDENT = "INCID", "Incident"
-    FAIR = "FAIR", "Trade fair"
-    FORUM = "FORUM", "Forum"
-
-
 class Event(models.Model):
-    title = models.CharField(max_length=5, choices=EventTitle.choices, default=EventTitle.MEETING)
+    # Type for the title
+    class EventTitle(models.TextChoices):
+        PHONE = "TEL", "Phone call"
+        EMAIL = "EMAIL", "Email"
+        MEETING = "MEET", "Meeting"
+        SKYPE = "SKYPE", "Skype call"
+        CONFERENCE = "CONF", "Conference"
+        TRAIN = "TRAIN", "Training"
+        ORDER = "ORDER", "Order"
+        INCIDENT = "INCID", "Incident"
+        FAIR = "FAIR", "Trade fair"
+        FORUM = "FORUM", "Forum"
+
+    title = models.CharField(max_length=5, choices=EventTitle.choices, default=EventTitle.EMAIL)
     date = models.DateTimeField()
     description = models.TextField(max_length=5000)
 
@@ -36,15 +36,15 @@ class Event(models.Model):
         return f"{self.title} ({self.date}): {self.company.all()}"
 
 
-class ReminderImportance(models.TextChoices):
-    URGENT = "4URG", "Urgent"
-    HIGH = "3HI", "High"
-    MEDIUM = "2MID", "Medium"
-    LOW = "1LOW", "Low"
-    FYI = "0FYI", "Info"
-
-
 class Reminder(models.Model):  # TODO: rename to "Task"
+
+    class ReminderImportance(models.TextChoices):
+        URGENT = "4URG", "Urgent"
+        HIGH = "3HI", "High"
+        MEDIUM = "2MID", "Medium"
+        LOW = "1LOW", "Low"
+        FYI = "0FYI", "Info"
+
     task = models.CharField(max_length=45)
     description = models.TextField(max_length=5000)
     due_time = models.DateTimeField()
@@ -80,7 +80,7 @@ class Reminder(models.Model):  # TODO: rename to "Task"
 
 
 class Project(models.Model):
-    code = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=100, help_text="City of the project")
     short_description = models.CharField(max_length=100, help_text="Short description like facility's title")
     description = models.TextField(max_length=5000)
@@ -107,16 +107,17 @@ class Project(models.Model):
         return f"{self.code} {self.location} ({self.short_description})"
 
 
-class ProjectCompanyRoleChoices(models.TextChoices):
-    CONTRACTOR = "CTR", "Contractor"
-    INTEGRATOR = "INT", "Integrator"
-    END_USER = "EUS", "End User"
-
-
 class ProjectCompany(models.Model):
-    project = models.ForeignKey("business.Project", on_delete=models.SET_NULL, null=True)
-    company = models.ForeignKey("leads.Company", on_delete=models.SET_NULL, null=True)
-    role = models.CharField(max_length=3, choices=ProjectCompanyRoleChoices.choices, default=ProjectCompanyRoleChoices.CONTRACTOR)
+
+    class RoleChoices(models.TextChoices):
+        CONTRACTOR = "CTR", "Contractor"
+        INTEGRATOR = "INT", "Integrator"
+        END_USER = "EUS", "End User"
+        PARTNER = "PRT", "Partner"
+
+    role = models.CharField(max_length=3, choices=RoleChoices.choices, default=str(RoleChoices.CONTRACTOR))  # TODO: find out why it works only with str()
+    project = models.ForeignKey("business.Project", on_delete=models.CASCADE)
+    company = models.ForeignKey("leads.Company", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.company}: {self.role} ({self.project})"

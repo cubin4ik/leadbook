@@ -108,9 +108,16 @@ class LegalForm(models.Model):
         return self.short_form
 
 
+class ContactType(models.TextChoices):
+    MAIN = "MAIN", "main"
+    MOBILE = "MOB", "mobile"
+    WORK = "WRK", "work"
+    PERSONAL = "PRS", "personal"
+
+
 class Email(models.Model):
     email = models.EmailField(max_length=255)
-    type = models.CharField(max_length=50, null=True)
+    type = models.CharField(max_length=4, choices=ContactType.choices, default=ContactType.MAIN)
 
     # foreign keys
     person = models.ForeignKey("Person", on_delete=models.SET_NULL, null=True)
@@ -123,22 +130,15 @@ class Email(models.Model):
         return f"{self.email} : {self.person.first_name} {self.person.last_name}: ({self.type})"
 
 
-class PhoneType(models.TextChoices):
-    MAIN = "MAIN", "main"
-    MOBILE = "MOB", "mobile"
-    WORK = "WRK", "work"
-    PERSONAL = "PRS", "personal"
-
-
 class Phone(models.Model):
-    country_code = models.CharField(max_length=15)
-    area_code = models.CharField(max_length=15)
-    number = models.CharField(max_length=15)
-    extension = models.CharField(max_length=15, null=True, blank=True)
-    type = models.CharField(max_length=255, choices=PhoneType.choices, default=PhoneType.MAIN)
+    country_code = models.PositiveIntegerField()
+    area_code = models.PositiveIntegerField()
+    number = models.PositiveIntegerField()
+    extension = models.PositiveIntegerField(null=True, blank=True)
+    type = models.CharField(max_length=4, choices=ContactType.choices, default=ContactType.MAIN)
 
     # foreign keys
-    # type = models.ForeignKey("PhoneType", on_delete=models.SET_NULL, null=True)
+    # type = models.ForeignKey("ContactType", on_delete=models.SET_NULL, null=True)
     person = models.ForeignKey("Person", on_delete=models.CASCADE)
     company = models.ForeignKey("Company", on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -151,13 +151,6 @@ class Phone(models.Model):
     def __str__(self):
         return f"+{self.country_code} ({self.area_code}) {self.number[:3]}-{self.number[3:5]}-{self.number[5:]} :" \
                f" {self.person.first_name} {self.person.last_name} ({self.type})"
-
-
-# class PhoneType(models.Model):
-#     type = models.CharField(max_length=45)
-#
-#     def __str__(self):
-#         return self.type
 
 
 class Address(models.Model):

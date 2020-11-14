@@ -22,7 +22,13 @@
     {% for project in project_list %}
     <tr>
         <td><a href="{% url 'business:project-detail' project.pk %}" class="text-dark">{{ project }}</a></td>
-        <td><a class="text-muted" href="{% url 'leads:detail' project.company_contractor.pk %}">{{ project.company_contractor }}</a></td>
+        <td>
+            {% if project.projectcompany_set.first %}
+            {% for partnership in project.projectcompany_set.all %}
+            <a class="text-muted" href="{% url 'leads:detail' partnership.company.pk %}">{{ partnership.company }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </td>
+        {% endif %}
         <td>
             {% if project.status|stringformat:"s" == "Completed" %}
             <span class="text-success">{{ project.status }}</span>

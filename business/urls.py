@@ -26,10 +26,10 @@ urlpatterns = [
     path('events/<int:pk>/', EventDetail.as_view(), name='event-detail'),
     path('events/<int:pk>/update/', EventUpdate.as_view(), name='event-update'),
     path('events/<int:pk>/delete/', EventDelete.as_view(), name='event-delete'),
-    path('reminders/', ReminderList.as_view(), name='reminder-list'),
-    path('reminders/new/', ReminderCreate.as_view(), name='reminder-create'),
-    path('reminders/<int:pk>/', ReminderDetail.as_view(), name='reminder-detail'),
-    path('reminders/<int:pk>/update', ReminderUpdate.as_view(), name='reminder-update'),
-    path('reminders/<int:pk>/delete', ReminderDelete.as_view(), name='reminder-delete'),
-    path('reminders/<int:reminder_id>/done', reminder_set_done, name='reminder-done')
+    path('tasks/', ReminderList.as_view(), name='reminder-list'),
+    path('tasks/new/', ReminderCreate.as_view(), name='reminder-create'),
+    path('tasks/<int:pk>/', ReminderDetail.as_view(), name='reminder-detail'),
+    path('tasks/<int:pk>/update', ReminderUpdate.as_view(), name='reminder-update'),
+    path('tasks/<int:pk>/delete', ReminderDelete.as_view(), name='reminder-delete'),
+    path('tasks/<int:reminder_id>/done', reminder_set_done, name='reminder-done')
 ]

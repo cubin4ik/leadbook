@@ -1,10 +1,11 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, HttpResponseRedirect, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from datetime import datetime, timedelta
-from .models import Project, Reminder, Event
+from .models import Project, Reminder, Event, ProjectCompany
+from .forms import ProjectCreateForm, ProjectInlineFormSet
 
 
 class ProjectList(generic.ListView):
@@ -16,20 +17,90 @@ class ProjectList(generic.ListView):
 
 
 class ProjectDetail(generic.DetailView):
+    # TODO: add attachments
     model = Project
 
 
 class ProjectCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Project
-    fields = "__all__"
+    form_class = ProjectCreateForm
     success_message = "New project has been successfully created"
+    extra_context = {
+        "title": "Create New Project"
+    }
 
     def get_initial(self):
-        context = {"manager": self.request.user}
+        """Populate the form with data given in URL params"""
+        ctx = {
+            "manager": self.request.user,
+            "registry_date": datetime.today()
+        }
 
         for key, value in self.request.GET.items():
-            context[key] = value
-        return context
+            ctx[key] = value
+        return ctx
+
+    def form_valid(self, form):
+        ctx = self.get_context_data()
+        inline_formset = ctx['inline_formset']
+
+        if form.is_valid() and inline_formset.is_valid():
+            self.object = form.save()
+
+            new_companies = []
+            for line in inline_formset:
+                project_id = self.object
+                company_id = line.cleaned_data.get('company')
+                company_role = line.cleaned_data.get('role')
+
+                if company_id and company_role:
+                    new_companies.append(ProjectCompany(project=project_id, company=company_id, role=company_role))
+
+            ProjectCompany.objects.filter(project=project_id).delete()
+            ProjectCompany.objects.bulk_create(new_companies)
+
+            # try:
+            #     with transaction.atomic():
+            #         # Replace the old with the new
+            #         ProjectCompany.objects.filter(project=project_id).delete()
+            #         ProjectCompany.objects.bulk_create(new_companies)
+            #
+            #         # And notify our users that it worked
+            #         # messages.success(request, 'You have updated your profile.')
+            #
+            # except IntegrityError: #If the transaction failed
+            #     messages.error(request, 'There was an error saving your profile.')
+            #     return redirect(reverse('profile-settings'))
+
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ProjectCreate, self).get_context_data(**kwargs)
+
+        if self.request.POST:
+            ctx['inline_formset'] = ProjectInlineFormSet(self.request.POST)
+        else:
+            ctx['inline_formset'] = ProjectInlineFormSet()
+        return ctx
+
+    # Validation below has been recently replaced
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=True)
+    #
+    #     # TODO: get an understanding of what is going on below
+    #     # delete current mapping
+    #     ProjectCompany.objects.filter(project=self.object).delete()  # TODO: how to avoid saving to database
+    #
+    #     # find or create (find if using soft delete)
+    #     for company in form.cleaned_data['company']:
+    #         project_company = ProjectCompany()
+    #         project_company.project = self.object
+    #         project_company.company = company
+    #         # project_company.alive = True # if using soft delete
+    #         project_company.save()
+    #     return super(ModelFormMixin, self).form_valid(form)
 
 
 class ProjectUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
@@ -45,6 +116,7 @@ class ProjectDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView)
 
 
 class EventCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    # TODO: add attachments
     model = Event
     fields = "__all__"
     success_message = "New event has been successfully created"

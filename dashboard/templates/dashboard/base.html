@@ -94,7 +94,7 @@
                 <p class='text-muted'>
                 <ul class="list-unstyled">
                     {% for reminder in company.reminder_set.all %}
-                    {% if reminder.manager == user %}
+                    {% if reminder.executor == user or reminder.manager == user %}
                     <li><a href="{% url 'business:reminder-detail' company.reminder_set.all.first.pk %}" class="text-danger"><strong>{{ reminder.due_time|date:"H:i" }}</strong> {{ reminder.task }}</a></li><hr>
                     {% endif %}
                     {% endfor %}
