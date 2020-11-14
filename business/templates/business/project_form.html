@@ -44,13 +44,4 @@
     </div>
 </form>
 </div>
-{% load static %}
-<script src="{% static '/dashboard/scripts/jquery.formset.js' %}"></script>
-<script type="text/javascript">
-    $(function() {
-        $('#project-form company-formset form-row').formset({
-            prefix: '{{ formset.prefix }}'
-        });
-    })
-</script>
 {% endblock content %}
