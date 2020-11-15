@@ -203,6 +203,7 @@ fabric.properties
 # leadbook
 /leadbook/key.txt
 /leadbook/db.cnf
+content
 dump.json
 share.json
 .idea/
