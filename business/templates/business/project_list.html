@@ -27,8 +27,8 @@
             {% for partnership in project.projectcompany_set.all %}
             <a class="text-muted" href="{% url 'leads:detail' partnership.company.pk %}">{{ partnership.company }}</a>{% if not forloop.last %}, {% endif %}
             {% endfor %}
+            {% endif %}
         </td>
-        {% endif %}
         <td>
             {% if project.status|stringformat:"s" == "Completed" %}
             <span class="text-success">{{ project.status }}</span>

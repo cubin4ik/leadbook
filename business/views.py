@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, HttpResponseRedirect, render, re
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 from datetime import datetime, timedelta
-from .models import Project, Reminder, Event, ProjectCompany
+from .models import Project, Task, Event, ProjectCompany, Document
 from .forms import ProjectCreateForm, ProjectInlineFormSet
 
 
@@ -12,7 +12,7 @@ class ProjectList(generic.ListView):
     paginate_by = 15
     model = Project
     extra_context = {
-        "title": "Projects"
+        "task": "Projects"
     }
 
 
@@ -26,7 +26,7 @@ class ProjectCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
     form_class = ProjectCreateForm
     success_message = "New project has been successfully created"
     extra_context = {
-        "title": "Create New Project"
+        "task": "Create New Project"
     }
 
     def get_initial(self):
@@ -103,6 +103,18 @@ class ProjectCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
     #     return super(ModelFormMixin, self).form_valid(form)
 
 
+class DocumentCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = Document
+    fields = "__all__"
+    success_message = "New file has been successfully added"
+    extra_context = {
+        "task": "Add a document"
+    }
+
+    def get_initial(self):
+        return self.request.GET
+
+
 class ProjectUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Project
     fields = "__all__"
@@ -145,9 +157,10 @@ class EventDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
     success_message = "The event has been successfully deleted."
 
 
-class ReminderCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
-    model = Reminder
-    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "executor"]
+class TaskCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = Task
+    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "manager", "executor"]
+    success_message = "New task has been successfully created"
 
     def get_initial(self):
         context = {"manager": self.request.user, "executor": self.request.user, "due_time": datetime.now() + timedelta(minutes=30)}
@@ -159,14 +172,14 @@ class ReminderCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView
         return context
 
 
-class ReminderUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
-    model = Reminder
-    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "executor"]
-    success_message = "Reminder has been successfully updated"
+class TaskUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+    model = Task
+    fields = ["task", "importance", "description", "due_time", "event", "company", "person", "project", "manager", "executor"]
+    success_message = "Task has been successfully updated"
 
 
-class ReminderList(generic.ListView):
-    model = Reminder
+class TaskList(generic.ListView):
+    model = Task
 
     def get_queryset(self):
         object_list = self.model.objects.filter(executor=self.request.user) | self.model.objects.filter(manager=self.request.user)
@@ -181,18 +194,18 @@ class ReminderList(generic.ListView):
         return object_list
 
 
-class ReminderDetail(generic.DetailView):
-    model = Reminder
+class TaskDetail(generic.DetailView):
+    model = Task
 
 
-class ReminderDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
-    model = Reminder
-    success_url = reverse_lazy("business:reminder-list")
-    success_message = "The reminder has been successfully deleted."
+class TaskDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+    model = Task
+    success_url = reverse_lazy("business:task-list")
+    success_message = "The task has been successfully deleted."
 
 
-def reminder_set_done(request, reminder_id):
-    reminder = get_object_or_404(Reminder, pk=reminder_id)
-    reminder.done = bool(request.POST['done'])
-    reminder.save()
+def task_set_done(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    task.done = bool(request.POST['done'])
+    task.save()
     return HttpResponseRedirect(request.POST['next'])

@@ -228,3 +228,42 @@ a.history:hover {
     text-decoration: none;
     opacity: 1;
 }
+.file {
+  display: block;
+  padding: 1px 0px;
+}
+.file i {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    margin-right: 7px;
+}
+.file .doc, .docx {
+  background: url('https://api.iconify.design/vscode-icons:file-type-word2.svg') no-repeat;
+  background-size: contain;
+}
+.file .pdf {
+  background: url('https://api.iconify.design/vscode-icons:file-type-pdf2.svg') no-repeat;
+  background-size: contain;
+}
+.file .xlsx {
+  background: url('https://api.iconify.design/vscode-icons:file-type-excel2.svg') no-repeat;
+  background-size: contain;
+}
+.file .msg {
+  background: url('https://api.iconify.design/noto:envelope.svg') no-repeat;
+  background-size: contain;
+}
+.file .txt {
+  background: url('https://api.iconify.design/twemoji:spiral-notepad.svg') no-repeat;
+  background-size: contain;
+}
+.file .zip {
+  background: url('https://api.iconify.design/vscode-icons:file-type-zip.svg') no-repeat;
+  background-size: contain;
+}
+.file .jpg, .jpeg, .png {
+  background: url('https://api.iconify.design/flat-color-icons:image-file.svg') no-repeat;
+  background-size: contain;
+}

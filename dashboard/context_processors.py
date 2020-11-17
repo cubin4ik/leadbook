@@ -5,7 +5,7 @@ from datetime import date, timedelta
 from django.utils import timezone
 from .scripts.apihandle import ParseAPI
 from leads.models import Company
-from business.models import Reminder, Project
+from business.models import Task, Project
 
 
 def summary(request):
@@ -50,11 +50,11 @@ def get_currency():
 
 
 def get_tasks():
-    return Reminder.objects.count
+    return Task.objects.count
 
 
 def get_tasks_done():
-    return Reminder.objects.filter(done=True).count
+    return Task.objects.filter(done=True).count
 
 
 def get_projects():

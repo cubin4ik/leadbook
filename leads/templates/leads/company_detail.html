@@ -137,10 +137,10 @@
                 <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             </svg>
         </a>
-        {% if company.project_contractor.all.count %}
+        {% if company.project_set.all.count %}
         <ul class="list-unstyled pt-2">
-            {% for project in company.project_contractor.all %}
-            <li><a href="{% url 'business:project-detail' project.pk %}">{{ project }}</a> - Contractor</li>
+            {% for project in company.project_set.all %}
+            <li><a href="{% url 'business:project-detail' project.pk %}">{{ project }}</a> - {{ project.role }}</li>
             {% endfor %}
         </ul>
         <hr>
@@ -199,7 +199,7 @@
         </div>
         <!--                <ul class="list-group pt-2">-->
         <!--                  {% for event in company.event_set.all reversed %}-->
-        <!--                    <span class="text-muted mb-1">{{ event.date|date:'F d, Y' }} - {{ event.title }}</span>-->
+        <!--                    <span class="text-muted mb-1">{{ event.date|date:'F d, Y' }} - {{ event.task }}</span>-->
         <!--                    <li class="list-group-item">-->
         <!--                        {{ event.description }}-->
         <!--                    </li>-->
