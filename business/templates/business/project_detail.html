@@ -35,7 +35,6 @@
             <a href="{% url 'leads:detail' participation.company.pk %}" class="text-secondary">{{ participation.company }} ({{ participation.get_role_display }})</a>{% if not forloop.last %}, {% endif %}
             {% endfor %}
             {% endif %}
-
         </div>
         <div class="progress mt-3 mb-3">
             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70"

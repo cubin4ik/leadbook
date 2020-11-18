@@ -10,12 +10,12 @@ class CompanyList(generic.ListView):
     paginate_by = 15
     model = Company
     extra_context = {
-        'task': "Leads"
+        'title': "Leads"
     }
 
     def get_queryset(self):
-        if "task" in self.request.GET.keys():
-            title = self.request.GET.get("task")
+        if "title" in self.request.GET.keys():
+            title = self.request.GET.get("title")
             object_list = self.model.objects.filter(title__icontains=title) | self.model.objects.filter(about__icontains=title)
             if not object_list:
                 object_list = self.model.objects.filter(person__first_name__icontains=title) | self.model.objects.filter(person__last_name__icontains=title)
@@ -31,13 +31,13 @@ class CompanyDetail(generic.DetailView):
     # template_name = 'leads/company_detail.html'
 
     extra_context = {
-        'task': "Detail"
+        'title': "Detail"
     }
 
 
 class CompanyCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Company
-    fields = ["task", "legal_form", "title_latin", "website", "about", "status", "discounts", "manager"]
+    fields = ["title", "legal_form", "title_latin", "website", "about", "status", "discounts", "manager"]
     success_message = "New company has been successfully created"
 
     def get_initial(self):
@@ -50,7 +50,7 @@ class CompanyCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
 
 class CompanyUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Company
-    fields = ["task", "legal_form", "title_latin", "website", "about", "status", "discounts", "manager"]
+    fields = ["title", "legal_form", "title_latin", "website", "about", "status", "discounts", "manager"]
     success_message = "Company has been successfully updated"
 
 
@@ -98,7 +98,7 @@ class PhoneCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     form_class = PhoneCreateForm
     success_message = "New phone has been successfully created"
     extra_context = {
-        'task': 'Create new phone number'
+        'title': 'Create new phone number'
     }
 
     def get_initial(self):
@@ -119,7 +119,7 @@ class EmailCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
 # def leads(request):
 #     companies_list = Company.objects.all()
 #     context = {
-#         'task': "Leads",
+#         'title': "Leads",
 #         'today': timezone.now(),
 #         'week': date.today().isocalendar()[1],
 #         'companies_list': companies_list

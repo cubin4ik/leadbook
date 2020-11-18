@@ -5,7 +5,7 @@ from leads.models import Company, Person
 
 def dashboard(request):
     context = {
-        'task': 'Dashboard',
+        'title': 'Dashboard',
         'low_activity_leads': get_low_activity_leads()
     }
     return render(request, 'dashboard/index.html', context)

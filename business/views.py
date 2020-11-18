@@ -12,7 +12,7 @@ class ProjectList(generic.ListView):
     paginate_by = 15
     model = Project
     extra_context = {
-        "task": "Projects"
+        "title": "Projects"
     }
 
 
@@ -26,7 +26,7 @@ class ProjectCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
     form_class = ProjectCreateForm
     success_message = "New project has been successfully created"
     extra_context = {
-        "task": "Create New Project"
+        "title": "Create New Project"
     }
 
     def get_initial(self):
@@ -108,7 +108,7 @@ class DocumentCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView
     fields = "__all__"
     success_message = "New file has been successfully added"
     extra_context = {
-        "task": "Add a document"
+        "title": "Add a document"
     }
 
     def get_initial(self):
@@ -189,7 +189,7 @@ class TaskList(generic.ListView):
             self.extra_context = {"query_request": task}
 
             # TODO: Revise code below
-            if "mine" in self.request.GET.keys():
+            if "my" in self.request.GET.keys():
                 object_list = object_list.filter(executor=self.request.user)
         return object_list
 
