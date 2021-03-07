@@ -15,6 +15,7 @@ class PersonRole(models.TextChoices):
     HEAD_OF_DEPARTMENT = " ", "Руководитель отдела"
     CHIEF_TECHNICAL_ENGINEER = "CTE", "Главный инженер"
     ENGINEER = "ENG", "Инженер"
+    CONSTRUCTOR = "CNS", "Конструктор"
     DESIGNER = "DES", "Проектировщик"
     EXPERT = "EXP", "Эксперт"
     PURCHASING_SPECIALIST = "PUR", "Специалист закупки"
@@ -113,6 +114,7 @@ class ContactType(models.TextChoices):
     MOBILE = "MOB", "mobile"
     WORK = "WRK", "work"
     PERSONAL = "PRS", "personal"
+    PAST = "PST", "past"
 
 
 class Email(models.Model):
@@ -149,7 +151,8 @@ class Phone(models.Model):
         return reverse("leads:person-detail", args=[self.person.id])
 
     def __str__(self):
-        return f"+{self.country_code} ({self.area_code}) {self.number[:3]}-{self.number[3:5]}-{self.number[5:]} :" \
+        number_text = str(self.number)
+        return f"+{self.country_code} ({self.area_code}) {number_text[:3]}-{number_text[3:5]}-{number_text[5:]} :" \
                f" {self.person.first_name} {self.person.last_name} ({self.type})"
 
 

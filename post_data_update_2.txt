@@ -1,0 +1,25 @@
+csrfmiddlewaretoken----------sxxVw4dfeufGw5pv8j3teB9UbVqrUZSwqmNpZFWQ4dsMfOeBU35mwkeihg873soU
+code----------TST
+location----------Moscow
+short_description----------Some Project
+description----------Long description and all that stuff. Long description and all that stuff. Long description and all that stuff. Long description and all that stuff. Long description and all that stuff. Long description and all that stuff.
+volume----------
+registry_date----------2020-11-16 21:03:17
+fulfilment_date----------
+manager----------2
+status----------1
+stage----------10
+projectcompany_set-TOTAL_FORMS----------2
+projectcompany_set-INITIAL_FORMS----------1
+projectcompany_set-MIN_NUM_FORMS----------0
+projectcompany_set-MAX_NUM_FORMS----------1000
+projectcompany_set-0-company----------6
+projectcompany_set-0-role----------EUS
+projectcompany_set-0-id----------145
+projectcompany_set-0-DELETE----------
+projectcompany_set-0-project----------101
+projectcompany_set-1-company----------
+projectcompany_set-1-role----------CTR
+projectcompany_set-1-id----------
+projectcompany_set-1-DELETE----------
+projectcompany_set-1-project----------101

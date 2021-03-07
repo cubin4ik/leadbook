@@ -46,6 +46,7 @@ class ProjectCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
 
         if form.is_valid() and inline_formset.is_valid():
             self.object = form.save()
+            print("ENTERED")
 
             new_companies = []
             for line in inline_formset:
@@ -117,8 +118,63 @@ class DocumentCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView
 
 class ProjectUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Project
-    fields = "__all__"
+    form_class = ProjectCreateForm
     success_message = "Project has been successfully updated"
+
+    def form_valid(self, form):
+        ctx = self.get_context_data()
+        inline_formset = ctx['inline_formset']
+
+        with open("post_data_update_2.txt", "w") as wf:
+            for key, value in self.request.POST.items():
+                wf.write(key + "-" * 10 + str(value) + "\n")
+
+        print("Entering")
+        if form.is_valid() and inline_formset.is_valid():
+            self.object = form.save()
+
+            print("Entered")
+
+            new_companies = []
+            for line in inline_formset:
+                project_id = self.object
+                company_id = line.cleaned_data.get('company')
+                company_role = line.cleaned_data.get('role')
+
+                if company_id and company_role:
+                    new_companies.append(ProjectCompany(project=project_id, company=company_id, role=company_role))
+
+            ProjectCompany.objects.filter(project=project_id).delete()
+            ProjectCompany.objects.bulk_create(new_companies)
+
+            # try:
+            #     with transaction.atomic():
+            #         # Replace the old with the new
+            #         ProjectCompany.objects.filter(project=project_id).delete()
+            #         ProjectCompany.objects.bulk_create(new_companies)
+            #
+            #         # And notify our users that it worked
+            #         # messages.success(request, 'You have updated your profile.')
+            #
+            # except IntegrityError: #If the transaction failed
+            #     messages.error(request, 'There was an error saving your profile.')
+            #     return redirect(reverse('profile-settings'))
+
+            return redirect(self.get_success_url())
+        else:
+            print(f"Aborted: {form.is_valid()} {inline_formset.is_valid()}")
+            for key, value in inline_formset:
+                print(key, value)
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ProjectUpdate, self).get_context_data(**kwargs)
+
+        if self.request.POST:
+            ctx['inline_formset'] = ProjectInlineFormSet(self.request.POST)
+        else:
+            ctx['inline_formset'] = ProjectInlineFormSet(instance=self.object)
+        return ctx
 
 
 class ProjectDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):

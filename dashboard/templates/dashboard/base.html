@@ -17,9 +17,15 @@
     <!--    Google Fonts: Roboto, Poppins-->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
 
+    <!--    jQuery by Google-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <!--    Custom CSS-->
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'dashboard/main.css' %}">
+
+    <!--    Scripts-->
+    <script src="{% static 'dashboard/jquery.formset.js' %}"></script>
 
     {% if title %}
     <title>Leadbook | {{ title }}</title>
@@ -29,9 +35,9 @@
 </head>
 <body>
 <header class="site-header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark {% if user.is_superuser %}bg-black{% else %}bg-steel{% endif %} fixed-top">
         <div class="container">
-            <a class="navbar-brand mr-4" href="{% url 'dashboard:home' %}">leadbook</a>
+            <a class="navbar-brand mr-4" href="{% url 'dashboard:home' %}" id="test">leadbook</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -94,15 +100,7 @@
             {% if company.task_set.all %}
             <div class="content-section">
                 <h3>Tasks</h3>
-                <p class='text-muted'>
-                <ul class="list-unstyled">
-                    {% for task in company.task_set.all %}
-                    {% if task.executor == user or task.manager == user %}
-                    <li><a href="{% url 'business:task-detail' company.task_set.all.first.pk %}" class="text-danger"><strong>{{ task.due_time|date:"H:i" }}</strong> {{ task.task }}</a></li><hr>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-                </p>
+                {% include 'business/task_list_snippet.html' with task_list=company.task_set.all %}
             </div>
             {% endif %}
         </div>
@@ -112,7 +110,7 @@
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
@@ -122,7 +120,6 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
-
 </body>
 </body>
 </html>

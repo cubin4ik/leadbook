@@ -62,6 +62,9 @@ ul {
 .bg-steel {
   background-color: #5a7c91;
 }
+.bg-black {
+  background-color: black;
+}
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }
@@ -238,6 +241,12 @@ a.history:hover {
     height: 50px;
     vertical-align: middle;
     margin-right: 7px;
+}
+.delete-row {
+    margin: auto 20px 20px 0px;
+}
+.form-row .form-group {
+    margin-right: 20px;
 }
 .file .doc, .docx {
   background: url('https://api.iconify.design/vscode-icons:file-type-word2.svg') no-repeat;

@@ -117,6 +117,9 @@ class ProjectCompany(models.Model):
     project = models.ForeignKey("business.Project", on_delete=models.CASCADE)
     company = models.ForeignKey("leads.Company", on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ["-project__registry_date"]
+
     def __str__(self):
         return f"{self.company}: {self.role} ({self.project})"
 

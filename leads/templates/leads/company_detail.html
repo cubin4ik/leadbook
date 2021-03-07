@@ -139,8 +139,8 @@
         </a>
         {% if company.project_set.all.count %}
         <ul class="list-unstyled pt-2">
-            {% for project in company.project_set.all %}
-            <li><a href="{% url 'business:project-detail' project.pk %}">{{ project }}</a> - {{ project.role }}</li>
+            {% for record in company.projectcompany_set.all %}
+            <li><a href="{% url 'business:project-detail' record.project.pk %}" data-toggle="tooltip" data-placement="right" title="{{ record.get_role_display }}">{{ record.project }}</a></li>
             {% endfor %}
         </ul>
         <hr>
