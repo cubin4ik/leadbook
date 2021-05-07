@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, HttpResponseRedirect, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -8,7 +9,7 @@ from .models import Project, Task, Event, ProjectCompany, Document
 from .forms import ProjectCreateForm, ProjectInlineFormSet
 
 
-class ProjectList(generic.ListView):
+class ProjectList(LoginRequiredMixin, generic.ListView):
     paginate_by = 15
     model = Project
     extra_context = {
@@ -16,7 +17,7 @@ class ProjectList(generic.ListView):
     }
 
 
-class ProjectDetail(generic.DetailView):
+class ProjectDetail(LoginRequiredMixin, generic.DetailView):
     # TODO: add attachments
     model = Project
 
@@ -197,11 +198,11 @@ class EventCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
         return context
 
 
-class EventDetail(generic.DetailView):
+class EventDetail(LoginRequiredMixin, generic.DetailView):
     model = Event
 
 
-class EventList(generic.ListView):
+class EventList(LoginRequiredMixin, generic.ListView):
     model = Event
     ordering = ['-date']
 
@@ -239,7 +240,7 @@ class TaskUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     success_message = "Task has been successfully updated"
 
 
-class TaskList(generic.ListView):
+class TaskList(LoginRequiredMixin, generic.ListView):
     model = Task
 
     def get_queryset(self):
@@ -255,7 +256,7 @@ class TaskList(generic.ListView):
         return object_list
 
 
-class TaskDetail(generic.DetailView):
+class TaskDetail(LoginRequiredMixin, generic.DetailView):
     model = Task
 
 
@@ -265,6 +266,7 @@ class TaskDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
     success_message = "The task has been successfully deleted."
 
 
+@login_required
 def task_set_done(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
     task.done = bool(request.POST['done'])

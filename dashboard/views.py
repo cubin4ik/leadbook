@@ -30,7 +30,7 @@ from django.contrib.auth.decorators import login_required
 #     return render(request, 'dashboard/index.html', context)
 
 
-class Dashboard(generic.ListView, LoginRequiredMixin):
+class Dashboard(LoginRequiredMixin, generic.ListView):
     model = Widget
     template_name = "dashboard/index.html"
     extra_context = {
@@ -70,6 +70,7 @@ def settings(request):
     return HttpResponse(template.render(context, request))
 
 
+# TODO: work on a site search
 class SiteSearch(generic.ListView):
     template_name = 'dashboard/site-search_list.html'
 

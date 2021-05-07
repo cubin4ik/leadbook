@@ -6,7 +6,7 @@ from .forms import PhoneCreateForm
 from inventory.models import Discount
 
 
-class CompanyList(generic.ListView, LoginRequiredMixin):
+class CompanyList(LoginRequiredMixin, generic.ListView):
     paginate_by = 15
     model = Company
     extra_context = {
@@ -64,7 +64,7 @@ class CompanyList(generic.ListView, LoginRequiredMixin):
         return object_list
 
 
-class CompanyDetail(generic.DetailView):
+class CompanyDetail(LoginRequiredMixin, generic.DetailView):
     model = Company
     # template_name = 'leads/company_detail.html'
 
@@ -96,7 +96,7 @@ class CompanyUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView)
     success_message = "Company has been successfully updated"
 
 
-class PersonDetail(generic.DetailView):
+class PersonDetail(LoginRequiredMixin, generic.DetailView):
     model = Person
 
 
@@ -130,7 +130,7 @@ class PersonCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
         #     return {"company": company}
 
 
-class PersonUpdate(generic.UpdateView):
+class PersonUpdate(LoginRequiredMixin, generic.UpdateView):
     model = Person
     fields = "__all__"
     success_message = "Person has been successfully updated"

@@ -21,12 +21,12 @@ def register(request):
     return render(request, 'accounts/register.html', {"form": form})
 
 
-@login_required()
+@login_required
 def profile(request):
     return render(request, "accounts/profile.html")
 
 
-class UserUpdate(UpdateView, LoginRequiredMixin):
+class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
     fields = ["first_name", "last_name", "email", "profile_img", "widgets"]
     success_url = reverse_lazy("accounts:profile")
