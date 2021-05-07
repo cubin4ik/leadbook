@@ -181,8 +181,13 @@ ul.timeline > li:before {
     height: 20px;
     z-index: 400;
 }
+.widget-container {
+    grid-template-columns: repeat(2, 130px);
+    display: grid;
+    grid-template-rows: repeat(8, 130px);
+    grid-gap: 24px;
+}
 .card {
-    margin-bottom: 1.5rem;
     border: 0px;
     border-radius: 8px; /* when changing this - adjust image radius */
     transition: all .15s ease-in-out;
@@ -193,10 +198,13 @@ ul.timeline > li:before {
     height: 130px;
 }
 .card.size-2 {
+    grid-column: span 2;
     width: 284px;
     height: 130px;
 }
 .card.size-4 {
+    grid-row: span 2;
+    grid-column: span 2;
     width: 284px;
     height: 284px;
 }
@@ -349,4 +357,11 @@ a.history .bi:hover {
 .file .jpg, .jpeg, .png {
     background: url('https://api.iconify.design/flat-color-icons:image-file.svg') no-repeat;
     background-size: contain;
+}
+
+@media (min-width: 500px) {
+    .widget-container {grid-template-columns: repeat(3, 130px);}
+}
+@media (min-width: 990px) {
+    .widget-container {grid-template-columns: repeat(4, 130px);}
 }
