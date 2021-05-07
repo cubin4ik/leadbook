@@ -1,0 +1,16 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<div class="content-section">
+    <form method="POST" class="form-check form-switch">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Available widgets</legend>
+            {% for widget in widgets %}
+            <input type="checkbox" id="widget{{ forloop.counter }}" name="widget" value="{{ widget.pk }}" class="form-check-input">
+            <label for="widget{{ forloop.counter }}" class="form-check-label">{{ widget }}</label><br>
+            {% endfor %}
+        </fieldset>
+        <button class="btn btn-outline-info">Submit</button>
+    </form>
+</div>
+{% endblock content %}

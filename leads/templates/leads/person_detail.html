@@ -1,7 +1,8 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
 <article class="media content-section">
-    <!--      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">-->
+    {% load static %}
+    <img class="rounded-circle article-img" src="{% static 'dashboard/img/default_profile_img.png' %}">
     <div class="media-body">
         <!--        <div class="article-metadata">-->
         <!--          <a class="mr-2" href="{% url 'leads:companies' %}">←</a><small class="text-muted">Company Profile</small>-->
@@ -46,7 +47,7 @@
         {% if person.phone_set.all %}
         <ul class="list-unstyled">
             {% for phone in person.phone_set.all %}
-            <span class="text-muted">{{ phone.get_type_display }}</span><li class="text-secondary"><a href="tel:+{{ phone.country_code }}{{ phone.area_code }}{{ phone.number }}{% if phone.extension %},{{ phone.extension }}{% endif %}">
+            <span class="text-muted">{{ phone.get_type_display }}</span><li class="text-secondary"><a href="tel:+{{ phone }}">
             +{{ phone.country_code }} ({{ phone.area_code }}) {{ phone.number }}{% if phone.extension %} ({{ phone.extension }}){% endif %}
         </a></li>
             {% endfor %}

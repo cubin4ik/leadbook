@@ -3,6 +3,7 @@ from . import views
 
 app_name = 'dashboard'
 urlpatterns = [
-    path('', views.dashboard, name='home'),
-    path('site-search/', views.SiteSearch.as_view(), name='site-search')
+    path('', views.Dashboard.as_view(), name='home'),
+    path('site-search/', views.SiteSearch.as_view(), name='site-search'),
+    path('settings/', views.settings, name='settings')
 ]

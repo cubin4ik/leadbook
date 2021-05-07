@@ -201,6 +201,11 @@ class EventDetail(generic.DetailView):
     model = Event
 
 
+class EventList(generic.ListView):
+    model = Event
+    ordering = ['-date']
+
+
 class EventUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Event
     fields = "__all__"

@@ -54,7 +54,7 @@
         <ul class="list-unstyled pt-2">
             {% for record in project.document_set.all %}
             <li class="file">
-                <a href="{{ record.document.url }}" class="text-secondary">
+                <a href="{{ record.document.url }}" target="_blank" class="text-secondary">
                     <i class="{{ record.filetype }}"></i>
                     {{ record.filename }}
                 </a>

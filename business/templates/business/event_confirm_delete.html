@@ -6,7 +6,10 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Delete Event</legend>
             <h3>Are you sure you want to delete the following event?</h3>
-            "{{ object.title }}"
+            <p class="article-content">
+                <strong>{{ object.get_title_display }}</strong>
+            {{ object.description }}
+            </p>
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>

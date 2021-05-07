@@ -1,4 +1,4 @@
-from urllib import request, parse
+from urllib import request, parse, error
 from collections import namedtuple
 from datetime import datetime
 from xml.etree import ElementTree
@@ -33,7 +33,17 @@ class RequestAPI(object):
     def get_resp(self):
         """Connects and pulls xml data"""
 
-        data = request.urlopen(self.url)
+        try:
+            data = request.urlopen(self.url)
+        except error.URLError:
+            proxy_support = request.ProxyHandler({'http': 'rb-proxy-de.bosch.com:8080',
+                                                  'https': 'rb-proxy-special.bosch.com:8080'})
+            opener = request.build_opener(proxy_support)
+            request.install_opener(opener)
+            data = request.urlopen(self.url)
+
+        # TODO: Delete the above proxy code and uncomment the below line
+        # data = request.urlopen(self.url)
         enc = data.headers.get_content_charset()
 
         return data.read().decode(enc)

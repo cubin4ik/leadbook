@@ -4,6 +4,7 @@ from django.shortcuts import reverse
 
 
 class Event(models.Model):
+
     # Type for the task
     class EventTitle(models.TextChoices):
         PHONE = "TEL", "Phone call"

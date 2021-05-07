@@ -1,126 +1,155 @@
+/* Corporate fonts download */
+
 @font-face {
-  font-family: boschsansregular;
-  src: url("/static/dashboard/fonts/boschsans/BoschSans-Regular.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: boschsansregular;
+    src: url("/static/dashboard/fonts/boschsans/BoschSans-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: boschsansmedium;
-  src: url("/static/dashboard/fonts/boschsans/BoschSans-Medium.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: boschsansmedium;
+    src: url("/static/dashboard/fonts/boschsans/BoschSans-Medium.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: boschsansbold;
-  src: url("/static/dashboard/fonts/boschsans/BoschSans-Bold.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: boschsansbold;
+    src: url("/static/dashboard/fonts/boschsans/BoschSans-Bold.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: boschsansblack;
-  src: url("/static/dashboard/fonts/boschsans/BoschSans-Black.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: boschsansblack;
+    src: url("/static/dashboard/fonts/boschsans/BoschSans-Black.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: boschsanslight;
-  src: url("/static/dashboard/fonts/boschsans/BoschSans-Light.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
+    font-family: boschsanslight;
+    src: url("/static/dashboard/fonts/boschsans/BoschSans-Light.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
 }
 /* @font-face {
-  font-family: roboto;
-  src: url("/static/dashboard/fonts/roboto/Roboto-Regular.ttf") format("ttf");
-  font-weight: normal;
-  font-style: normal;
+    font-family: roboto;
+    src: url("/static/dashboard/fonts/roboto/Roboto-Regular.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: poppins;
-  src: url("/static/dashboard/fonts/poppins/Poppins-Regular.ttf") format("ttf");
-  font-weight: normal;
-  font-style: normal;
+    font-family: poppins;
+    src: url("/static/dashboard/fonts/poppins/Poppins-Regular.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
 } */
+
+/* General */
+
 body {
-  background: #fafafa;
-  color: #333333;
-  margin-top: 6rem;
-  font-family: 'Poppins', sans-serif;;
+    background: #fafafa;
+    color: #333333;
+    margin-top: 6.5rem;
+    font-family: boschsansregular, 'Poppins', sans-serif;;
+}
+a {
+    color: #0066B3;
 }
 body ::selection {
-  background: #a3bac8;
+    background: #a3bac8;
 }
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+    color: #444444;
 }
 ul {
-  margin: 0;
+    margin: 0;
 }
 .navbar {
     padding: 1.1rem;
     font-size: 1rem;
 }
+.navbar-brand {
+    font-family: 'Poppins', sans-serif;;
+}
 .bg-steel {
-  background-color: #5a7c91;
+    background-color: #5a7c91;
 }
 .bg-black {
-  background-color: black;
+    background-color: #323232;
 }
 .site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+    color: #cbd5db;
 }
 .site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+    color: #ffffff;
 }
 .site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+    font-weight: 500;
 }
 .container .header-title {
     display: inline-block;
 }
+.nav-user-img {
+    height: 40px;
+    width: auto;
+}
 .content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  /* border-radius: 15px; */
-  margin-bottom: 20px;
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    /* border-radius: 15px; */
+    margin-bottom: 20px;
 }
 .article-title {
-  color: #444444;
+    color: #444444;
 }
 a.article-title:hover {
-  color: #428bca;
-  text-decoration: none;
+    color: #428bca;
+    text-decoration: none;
 }
 .article-content {
-  white-space: pre-line;
+    white-space: pre-line;
 }
 .article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+}
+.profile-img {
+    height: 100px;
+    width: 100px;
+    margin-right: 16px;
+}
+.profile-img-nav{
+    height: 40px;
+    width: 40px;
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #08cf65;
+    /*box-shadow: 0px 0px 3px #08cf65;*/
 }
 .article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    /*border-bottom: 1px solid #e3e3e3*/
 }
 .article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
+    color: #333;
+    text-decoration: none;
 }
 .article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
 }
 .account-img {
-  height: 125px;
-  width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
 }
 .account-heading {
-  font-size: 2.5rem;
+    font-size: 2.5rem;
 }
 ul.timeline {
     list-style-type: none;
@@ -153,20 +182,37 @@ ul.timeline > li:before {
     z-index: 400;
 }
 .card {
+    margin-bottom: 1.5rem;
+    border: 0px;
+    border-radius: 8px; /* when changing this - adjust image radius */
+    transition: all .15s ease-in-out;
+    box-shadow: 3px 3px 18px -15px black;
+}
+.card.size-1 {
     width: 130px;
     height: 130px;
-    border: 0px;
-    border-radius: 15px;
-    transition: all .15s ease-in-out;
+}
+.card.size-2 {
+    width: 284px;
+    height: 130px;
+}
+.card.size-4 {
+    width: 284px;
+    height: 284px;
 }
 .card:hover {
     transform: scale(1.1);
+    box-shadow: 3px 6px 17px -10px black;
 }
-.projects{
+.today {
+    background: rgb(57,198,211);
+    background: linear-gradient(0deg, rgba(57,198,211,1) 0%, rgba(66,138,187,1) 100%);
+}
+.projects {
     background: rgb(56,56,56);
     background: linear-gradient(165deg, rgba(56,56,56,1) 0%, rgba(107,107,107,1) 100%);
 }
-.leads{
+.leads {
     background: rgb(180,170,208);
     background: linear-gradient(174deg, rgba(180,170,208,1) 0%, rgba(168,223,230,1) 100%);
 }
@@ -178,26 +224,53 @@ ul.timeline > li:before {
     background: rgb(170,224,159);
     background: linear-gradient(174deg, rgba(170,224,159,1) 0%, rgba(90,187,165,1) 63%);
 }
+.hot.leads {
+    background: rgb(255,133,133);
+    background: linear-gradient(319deg, rgba(255,133,133,1) 0%, rgba(125,191,255,1) 100%);
+}
 .img-container img {
     position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+}
+.img-container.size-1 img {
     width: 130px;
     height: 130px;
-    border-radius: 15px;
+}
+.img-container.size-2 img {
+    width: 130px;
+    height: 130px;
+}
+.img-container.size-4 img {
+    width: 284px;
+    height: 284px;
 }
 .text-container {
+    text-decoration: none;
     position: relative;
     color: white;
-    text-transform: uppercase;
     font-size: 17px;
     text-align: left;
     margin-top: 10px;
     left: 20px;
+}
+.text-container div.uppercase{
+    text-transform: uppercase;
 }
 .value {
     position: absolute;
     top: 10px;
     color: white;
     font-size: 60px;
+}
+.value-QuerySet {
+    position: absolute;
+    top: 35px;
+    font-size: 15px;
+}
+.value-QuerySet td {
+    padding: 0px;
 }
 .task-item {
     border-left: 3px solid rgba(255, 255, 255, 0);
@@ -221,19 +294,18 @@ ul.timeline > li:before {
     border-left-color: #4272d7;
 }
 .history .bi {
-    opacity: 0.5;
+    opacity: 0.75;
 }
 a.history {
     text-decoration: none;
-    opacity: 0.5;
 }
-a.history:hover {
+a.history .bi:hover {
     text-decoration: none;
     opacity: 1;
 }
 .file {
-  display: block;
-  padding: 1px 0px;
+    display: block;
+    padding: 1px 0px;
 }
 .file i {
     display: inline-block;
@@ -248,31 +320,33 @@ a.history:hover {
 .form-row .form-group {
     margin-right: 20px;
 }
+
+/* Icons for documents*/
 .file .doc, .docx {
-  background: url('https://api.iconify.design/vscode-icons:file-type-word2.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/vscode-icons:file-type-word2.svg') no-repeat;
+    background-size: contain;
 }
 .file .pdf {
-  background: url('https://api.iconify.design/vscode-icons:file-type-pdf2.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/vscode-icons:file-type-pdf2.svg') no-repeat;
+    background-size: contain;
 }
 .file .xlsx {
-  background: url('https://api.iconify.design/vscode-icons:file-type-excel2.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/vscode-icons:file-type-excel2.svg') no-repeat;
+    background-size: contain;
 }
 .file .msg {
-  background: url('https://api.iconify.design/noto:envelope.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/noto:envelope.svg') no-repeat;
+    background-size: contain;
 }
 .file .txt {
-  background: url('https://api.iconify.design/twemoji:spiral-notepad.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/twemoji:spiral-notepad.svg') no-repeat;
+    background-size: contain;
 }
 .file .zip {
-  background: url('https://api.iconify.design/vscode-icons:file-type-zip.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/vscode-icons:file-type-zip.svg') no-repeat;
+    background-size: contain;
 }
 .file .jpg, .jpeg, .png {
-  background: url('https://api.iconify.design/flat-color-icons:image-file.svg') no-repeat;
-  background-size: contain;
+    background: url('https://api.iconify.design/flat-color-icons:image-file.svg') no-repeat;
+    background-size: contain;
 }
