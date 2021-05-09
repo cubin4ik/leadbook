@@ -184,12 +184,13 @@ ul.timeline > li:before {
 .widget-container {
     grid-template-columns: repeat(2, 130px);
     display: grid;
-    grid-template-rows: repeat(8, 130px);
+    grid-template-rows: 130px;
     grid-gap: 24px;
+    margin-bottom: 24px;
 }
 .card {
     border: 0px;
-    border-radius: 8px; /* when changing this - adjust image radius */
+    border-radius: 2px; /* when changing this - adjust image radius */
     transition: all .15s ease-in-out;
     box-shadow: 3px 3px 18px -15px black;
 }
@@ -240,7 +241,7 @@ ul.timeline > li:before {
     position: absolute;
     right: 0;
     bottom: 0;
-    border-radius: 8px;
+    border-radius: 2px;
 }
 .img-container.size-1 img {
     width: 130px;

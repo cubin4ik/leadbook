@@ -49,7 +49,7 @@
                     <a class="nav-item nav-link disabled" href="#">Calendar</a>
                     <a class="nav-item nav-link disabled" href="#">Reports</a>
                     {% if user.username == "admin" %}
-                    <a class="nav-item nav-link border-bottom" href="{% url 'admin:index' %}">Control panel</a>
+                    <a class="nav-item nav-link" href="{% url 'admin:index' %}">Control panel</a>
                     {% endif %}
                 </div>
 
@@ -124,6 +124,17 @@
 $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
+</script>
+<!--Menu underlying script-->
+<script type="text/javascript">
+    const currentLocation = location.href;
+    const menuItem = document.querySelectorAll('a.nav-link');
+    const menuLength = menuItem.length
+    for (let i =  0; i < menuLength; i++){
+        if(menuItem[i].href === currentLocation){
+            menuItem[i].className += " border-bottom"
+        }
+    }
 </script>
 </body>
 </body>

@@ -1,14 +1,10 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
-<form method="GET" class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
-    <a href="{% url 'business:task-create' %}" class="mr-3" data-toggle="tooltip" data-placement="right" title="Add new task">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" fill="currentColor" class="bi bi-plus-circle-fill text-info" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-        </svg>
+<form method="GET" class="form-inline d-flex md-form mr-auto mb-2 form-sm mt-0">
+    <input type="search" id="site-search" name="q" placeholder="Search" {% if q %} value="{{ q }}"{% endif %} aria-label="Search" class="form-control flex-fill w-auto">
+    <a href="{% url 'business:project-create' %}" class="btn btn-outline-info ml-2" data-toggle="tooltip" data-placement="right" title="Add new project">
+        create
     </a>
-    <input class="form-control flex-fill w-auto" type="search" name="task" placeholder="{% if query_request %}{{ query_request }}{% else %}Search by title{% endif %}" aria-label="Search">
 </form>
-<input id="mine" type="checkbox" name="mine">
-<label for="mine">show only my tasks</label>
 {% include 'business/task_list_snippet.html' %}
 {% endblock content %}

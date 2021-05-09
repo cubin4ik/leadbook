@@ -40,12 +40,6 @@ class CompanyList(LoginRequiredMixin, generic.ListView):
             object_list = full_list
         else:
             query_params = {key: value for key, value in self.request.GET.items() if key in search_attrs.keys()}
-            print("QUERY", query_params)
-            # query_params = {}
-            # for key, value in self.request.GET.items():
-            #     print()
-            #     query_params[key] = value
-
             object_list = self.model.objects.none()
 
             for key, value in query_params.items():
@@ -59,7 +53,6 @@ class CompanyList(LoginRequiredMixin, generic.ListView):
                     object_list = object_list.union(new_set)
 
                 self.extra_context[key] = value
-                print("CONTEXT:---------------------", self.extra_context)
 
         return object_list
 

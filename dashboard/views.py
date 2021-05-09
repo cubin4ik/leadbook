@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
+from django.urls import reverse_lazy
 from leads.models import Company, Person
 from .models import Widget
 from .context_processors import Widgets
@@ -46,6 +47,7 @@ class Dashboard(LoginRequiredMixin, generic.ListView):
             if widget_command in dir(Widgets):
                 widget.value = getattr(self.user_widgets, widget_command)()
                 widget.type = type(widget.value).__name__
+                widget.url = reverse_lazy(widget.url_path_name)
         return widgets
 
         # def get_context_data(self, **kwargs):

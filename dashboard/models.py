@@ -10,7 +10,7 @@ class Widget(models.Model):
 
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=50, null=True, blank=True)
-    url_path = models.URLField()
+    url_path_name = models.CharField(max_length=100, default='dashboard:home')
     size = models.IntegerField(choices=WidgetSize.choices, default=WidgetSize.SINGLE)
 
     def save(self, *args, **kwargs):

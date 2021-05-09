@@ -16,6 +16,31 @@ class ProjectList(LoginRequiredMixin, generic.ListView):
         "title": "Projects"
     }
 
+    def get_queryset(self):
+        search_fields = (
+            "code__icontains",
+            "location__icontains",
+            "short_description__icontains",
+            "description__icontains",
+            "company__title__icontains",
+        )
+
+        self.extra_context.clear()  # Clearing context for paginator to properly work
+        full_list = self.model.objects.filter(manager=self.request.user)
+
+        if not self.request.GET.get('q', ''):
+            object_list = full_list
+        else:
+            value = self.request.GET['q']
+            print(f"ENTERED LOOP WITH q={value}")
+            object_list = self.model.objects.none()
+
+            for field in search_fields:
+                new_set = full_list.filter(**{field: value})
+                object_list = object_list.union(new_set)
+
+        return object_list
+
 
 class ProjectDetail(LoginRequiredMixin, generic.DetailView):
     # TODO: add attachments

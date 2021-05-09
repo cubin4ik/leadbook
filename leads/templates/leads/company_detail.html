@@ -84,7 +84,7 @@
             <tbody>
             {% for person in company.person_set.all %}
             <tr>
-                <td>
+                <td class="pl-0">
                     <a href="{% url 'leads:person-detail' person.pk %}" class="text-secondary">
                         {{ person.first_name }} {{ person.last_name }}
                     </a>
