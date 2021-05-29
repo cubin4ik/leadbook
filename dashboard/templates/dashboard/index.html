@@ -61,7 +61,7 @@
             {% endfor %}
             </tbody>
           </table>
-          <a href="{% url 'leads:companies' %}?hot=true" class="btn btn-info mt-3 p-0 px-2"><small>view all {{ widget.value.count }} leads</small></a>
+            <a href="{% url 'leads:companies' %}?hot=true" class="btn btn-info mt-3 p-0 px-2"><small>view all {{ widget.value.count }} leads</small></a>
           {% else %}
           {{ widget.value }}
           {% endif %}

@@ -20,7 +20,7 @@ class Widgets:
 
     @staticmethod
     def get_currency():
-        return round(get_currency())
+        return 0  # round(get_currency())
 
     def get_leads(self):
         return Company.objects.filter(manager=self.user).count
@@ -46,7 +46,7 @@ class Widgets:
 def summary(request):
     return {
         "global_week": date.today().isocalendar()[1],
-        "global_currency": get_currency(),
+        "global_currency": Widgets.get_currency(),
 
         # Below queryset functions are to serve specific users and are not global
         # "global_tasks": get_tasks(),

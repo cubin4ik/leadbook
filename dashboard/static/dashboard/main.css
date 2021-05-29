@@ -68,7 +68,7 @@ ul {
     font-size: 1rem;
 }
 .navbar-brand {
-    font-family: 'Poppins', sans-serif;;
+    font-family: 'Poppins', verdana, sans-serif;;
 }
 .bg-steel {
     background-color: #5a7c91;
@@ -122,10 +122,10 @@ a.article-title:hover {
 .profile-img-nav{
     height: 40px;
     width: 40px;
-    background-color: white;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #08cf65;
+    /* background-color: white; */
+    /* border-style: solid; */
+    /* border-width: 1px; */
+    /* border-color: #08cf65; */
     /*box-shadow: 0px 0px 3px #08cf65;*/
 }
 .article-metadata {

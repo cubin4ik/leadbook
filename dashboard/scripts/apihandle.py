@@ -36,8 +36,12 @@ class RequestAPI(object):
         try:
             data = request.urlopen(self.url)
         except error.URLError:
-            proxy_support = request.ProxyHandler({'http': 'rb-proxy-de.bosch.com:8080',
-                                                  'https': 'rb-proxy-special.bosch.com:8080'})
+            proxy_support = request.ProxyHandler(
+                {
+                    'http': 'rb-proxy-de.bosch.com:8080',
+                    'https': 'rb-proxy-special.bosch.com:8080'
+                }
+            )
             opener = request.build_opener(proxy_support)
             request.install_opener(opener)
             data = request.urlopen(self.url)

@@ -22,7 +22,7 @@
     <thead>
     <tr>
         <th scope="col">Company</th>
-        <th scope="col">Contact</th>
+        <th scope="col" class="hide">Contact</th>
         <th scope="col">Status</th>
     </tr>
     </thead>
@@ -41,7 +41,7 @@
             </a>
             {% endif %}
         </td>
-        <td>
+        <td class="hide">
             <span class="text-{{ company.get_short_status.color }}">{{ company.get_short_status.status }}</span>
         </td>
     </tr>
