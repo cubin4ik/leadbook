@@ -1,3 +1,5 @@
+// Menu: making active page link underlined
+
 const currentLocation = location.href;
 const menuItem = document.querySelectorAll('a.nav-link');
 const menuLength = menuItem.length

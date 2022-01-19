@@ -48,18 +48,30 @@
             {% endfor %}
         </p>
         {% endif %}
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Product group</th>
-                <th scope="col">Discount</th>
-                <th scope="col">Status</th>
-            </tr>
-            </thead>
+    </div>
+</article>
+<article class="content-section">
+    <div class="media-body">
+        <strong>Discounts</strong>
+        <a href="{% url 'leads:person-create' %}?company={{ company.id }}" class="ml-2" type="submit">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            </svg>
+        </a>
+        <table class="table table-borderless w-auto">
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Product group</th>-->
+<!--                <th scope="col">Discount</th>-->
+<!--                <th scope="col">Status</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
             <tbody>
             {% for discount in company.discounts.all %}
             <tr>
-                <td>{{ discount.product_group.description }}</td>
+                <td class="pl-0">{{ discount.product_group.description }}</td>
                 <th scope="row">{{ discount.value }} %</th>
                 <td>{{ discount.status }}({{ discount.turnover_class }})</td>
                 <!--                  <td>{{ discount.turnover_class }}</td>-->
@@ -67,7 +79,10 @@
             {% endfor %}
             </tbody>
         </table>
-        <hr>
+    </div>
+</article>
+<article class="content-section">
+    <div class="media-body">
         <strong>Employees</strong>
         <a href="{% url 'leads:person-create' %}?company={{ company.id }}" class="ml-2" type="submit">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +130,11 @@
             </tbody>
         </table>
         {% endif %}
-        <hr>
+    </div>
+</article>
+
+<article class="content-section">
+    <div class="media-body">
         <strong>Projects</strong>
         <a href="{% url 'business:project-create' %}?company_contractor={{ company.id }}" class="ml-2" type="submit">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +149,6 @@
             <li><a href="{% url 'business:project-detail' record.project.pk %}" data-toggle="tooltip" data-placement="right" title="{{ record.get_role_display }}">{{ record.project }}</a></li>
             {% endfor %}
         </ul>
-        <hr>
         {% endif %}
         {% if company.project_integrator.all.count %}
         <ul class="list-unstyled pt-2">
@@ -138,7 +156,6 @@
             <li><a href="{% url 'business:project-detail' project.pk %}">{{ project }}</a> - Integrator</li>
             {% endfor %}
         </ul>
-        <hr>
         {% endif %}
         {% if company.project_end_user.all.count %}
         <ul class="list-unstyled pt-2">
@@ -146,8 +163,11 @@
             <li><a href="{% url 'business:project-detail' project.pk %}">{{ project }}</a> - End user</li>
             {% endfor %}
         </ul>
-        <hr>
         {% endif %}
+    </div>
+</article>
+<article class="content-section">
+    <div class="media-body">
         <strong>History</strong>
         <a href="{% url 'business:event-create' %}?company={{ company.id }}&person={{ company.person_set.all|first }}" class="ml-2" type="submit">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
