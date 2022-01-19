@@ -35,7 +35,7 @@ class Event(models.Model):
         return reverse("business:event-detail", args=[self.id])
 
     def __str__(self):
-        return f"{self.title} ({self.date}): {self.company.all()}"
+        return f"{self.get_title_display()} with {[lead.title for lead in self.company.all()]} on {self.date.strftime('%Y-%m-%d %H:%M:%S')}"
 
 
 class Task(models.Model):  # TODO: rename to "Task"

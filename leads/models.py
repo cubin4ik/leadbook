@@ -240,10 +240,10 @@ class Email(models.Model):
 
 
 class Phone(models.Model):
-    country_code = models.PositiveIntegerField()
-    area_code = models.PositiveIntegerField()
-    number = models.PositiveIntegerField()
-    extension = models.PositiveIntegerField(null=True, blank=True)
+    country_code = models.CharField(max_length=3)
+    area_code = models.CharField(max_length=7)
+    number = models.CharField(max_length=20)
+    extension = models.CharField(max_length=20, null=True, blank=True)
     type = models.CharField(max_length=4, choices=ContactType.choices, default=ContactType.MAIN)
 
     # foreign keys
