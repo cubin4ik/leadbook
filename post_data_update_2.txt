@@ -1,26 +1,25 @@
-csrfmiddlewaretoken----------bMRn5oxcADwXslyiYgPV3Yx84BHnPIAO3OP7qBbPfpxSw0ftzihC0tsHMmgMNMUs
-code----------VIL2017-001
-location----------Волгоград
-short_description----------Стадион Волгоград Арена
-description----------Автоматизация стадиона «Волгоград Арена» для чемпионата мира по футболу FIFA2018.
-Предоставлена расширенная гарантия 5 лет.
-volume----------55000
-registry_date----------2017-03-07 00:00:00
-fulfilment_date----------2018-03-30 00:00:00
+csrfmiddlewaretoken----------U2ItcQ7qggT6d5dnXQvEB8gcaALHfIHUFCqB9GCwEmszMsk3ow4VFPySDMFYy6Fs
+code----------OCS2021-006
+location----------Архенгельск
+short_description----------Арбитражный суд Архангельской области
+description----------Строительство областного суда
+volume----------
+registry_date----------2021-10-18 10:00:00
+fulfilment_date----------2022-12-31 00:00:00
 manager----------3
-status----------6
-stage----------9
-projectcompany_set-TOTAL_FORMS----------1
+status----------1
+stage----------1
+projectcompany_set-TOTAL_FORMS----------2
 projectcompany_set-INITIAL_FORMS----------1
 projectcompany_set-MIN_NUM_FORMS----------0
 projectcompany_set-MAX_NUM_FORMS----------1000
-projectcompany_set-0-company----------11
-projectcompany_set-0-role----------INT
-projectcompany_set-0-id----------
+projectcompany_set-0-company----------1
+projectcompany_set-0-role----------CTR
+projectcompany_set-0-id----------175
 projectcompany_set-0-DELETE----------on
-projectcompany_set-0-project----------
-projectcompany_set-1-company----------
-projectcompany_set-1-role----------CTR
+projectcompany_set-0-project----------118
+projectcompany_set-1-company----------69
+projectcompany_set-1-role----------INT
 projectcompany_set-1-id----------
 projectcompany_set-1-DELETE----------on
-projectcompany_set-1-project----------5
+projectcompany_set-1-project----------118
