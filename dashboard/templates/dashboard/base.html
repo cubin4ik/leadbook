@@ -77,19 +77,19 @@
 
             <!-- Pending Requests Card Example -->
 
-<!--            <div class="content-section">-->
-<!--                <h3>Summary</h3>-->
-<!--                <p class="text-muted">Highlights-->
-<!--                <ul class="list-group">-->
-<!--                    <li class="list-group-item list-group-item-light">Today: <strong>{% now "F d, Y" %}</strong></li>-->
-<!--                    <li class="list-group-item list-group-item-light">Week: <strong>{{ global_week }}</strong></li>-->
-<!--                    <li class="list-group-item list-group-item-light">Currency: <strong>{{ global_currency }}</strong></li>-->
-<!--                    <li class="list-group-item list-group-item-light">-->
-<!--                        <iframe src="https://open.spotify.com/embed/album/7j8a2kSxAtenkXPim6mwUB?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--                </p>-->
-<!--            </div>-->
+            <div class="content-section">
+                <h3>Summary</h3>
+                <p class="text-muted">Highlights
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Today: <strong>{% now "F d, Y" %}</strong></li>
+                    <li class="list-group-item list-group-item-light">Week: <strong>{{ global_week }}</strong></li>
+                    <li class="list-group-item list-group-item-light">Currency: <strong>{{ global_currency }}</strong></li>
+                    <li class="list-group-item list-group-item-light">
+                        <iframe src="https://open.spotify.com/embed/album/7j8a2kSxAtenkXPim6mwUB?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                    </li>
+                </ul>
+                </p>
+            </div>
             <!--            Tasks BAR-->
             {% if company.task_set.all %}
             <div class="content-section">
