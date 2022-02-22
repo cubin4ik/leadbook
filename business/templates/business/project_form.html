@@ -2,46 +2,44 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="content-section">
-<form id="project-form" method="POST" enctype="multipart/form-data" action=".">
-    {% csrf_token %}
-    <fieldset class="form-group">
-        <legend class="border-bottom mb-4">{{ title }}</legend>
-        {{ form|crispy }}
-    </fieldset>
-    <hr/>
-    <legend class="border-bottom mb-4">Participants</legend>
-    {%  for f in inline_formset %}
-    <div class="company-formset">
-        <div class="form-row">
-            <div class="form-group col-md-6 mb-0">
-<!--                {% if f.company.pk %}{{ f.DELETE }}{% endif %}-->
-                {{ f.company|as_crispy_field }}
-                {% if f.company.errors %}
-                {% for error in f.company.errors %}
-                {{ error|escape }}
+    <form id="project-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ title }}</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <fieldset id="inlines">
+            <legend class="border-bottom mb-4">Participants</legend>
+            <div class="company-formset">
+                <div class="inline-row">
+                {{ inline_formset.management_form }}
+                {%  for f in inline_formset %}
+                <div class="form-row" id="{{ f.prefix }}-row">
+                        {% for line in f %}
+                        {% if line.instance.pk %}{{ line.DELETE }}{% endif %}
+                        {{ line|as_crispy_field }}
+                        {% if line.errors %}
+                        <span style="color:red;">{{ line.errors }}</span>
+                        {% endif %}
+                        {% endfor %}
+                </div>
                 {% endfor %}
-                {% endif %}
+                </div>
             </div>
-            <div class="form-group col-md-6 mb-0">
-                {{ f.role|as_crispy_field }}
-                {% if f.role.errors %}
-                {% for error in f.role.errors %}
-                {{ error|escape }}
-                {% endfor %}
-                {% endif %}
-            </div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Save</button>
+            {% if project.pk %}
+            <a href="{% url 'business:project-delete' object.pk %}" class="btn btn-outline-danger ml-3">Delete</a>
+            {% endif %}
         </div>
-    </div>
-    {{ inline_formset.management_form }}
-    {% endfor %}
-    {% if inline_formset.non_form_errors %}
-    {% for error in inline_formset.non_form_errors %}
-    {{ error|escape }}
-    {% endfor %}
-    {% endif %}
-    <div class="form-group">
-        <button class="btn btn-outline-info" type="submit">Save</button>
-    </div>
-</form>
+    </form>
 </div>
+<script type="text/javascript">
+    $(function(){
+        $('#project-form div.form-row').formset({
+            prefix: '{{ inline_formset.prefix }}'
+        });
+    });
+</script>
 {% endblock content %}

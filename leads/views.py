@@ -6,7 +6,7 @@ from .forms import PhoneCreateForm
 from inventory.models import Discount
 
 
-class CompanyList(generic.ListView):
+class CompanyList(LoginRequiredMixin, generic.ListView):
     paginate_by = 15
     model = Company
     extra_context = {
@@ -14,19 +14,50 @@ class CompanyList(generic.ListView):
     }
 
     def get_queryset(self):
-        if "title" in self.request.GET.keys():
-            title = self.request.GET.get("title")
-            object_list = self.model.objects.filter(title__icontains=title) | self.model.objects.filter(about__icontains=title)
-            if not object_list:
-                object_list = self.model.objects.filter(person__first_name__icontains=title) | self.model.objects.filter(person__last_name__icontains=title)
-            self.extra_context['query_request'] = title
+
+        search_attrs = {
+            'q': (
+                'title__icontains',
+                'title_latin__icontains',
+                'website__icontains',
+                'about__icontains',
+                'partners__title__icontains',
+                'person__first_name__icontains',
+                'person__last_name__icontains',
+                'person__description__icontains',
+            )
+        }
+
+        self.extra_context.clear()  # Clearing context for paginator to properly work
+
+        if self.request.GET.get('hot', ''):
+            self.extra_context['hot'] = 'true'
+            return self.model.get_hot_leads(self.request.user)
+
+        full_list = self.model.objects.filter(manager=self.request.user)
+
+        if not self.request.GET:
+            object_list = full_list
         else:
-            object_list = self.model.objects.all()
-            self.extra_context['query_request'] = ""
+            query_params = {key: value for key, value in self.request.GET.items() if key in search_attrs.keys()}
+            object_list = self.model.objects.none()
+
+            for key, value in query_params.items():
+
+                if type(search_attrs[key]) is tuple:
+                    for attr in search_attrs[key]:
+                        new_set = full_list.filter(**{attr: value})
+                        object_list = object_list.union(new_set)
+                else:
+                    new_set = full_list.filter(**{key: value})
+                    object_list = object_list.union(new_set)
+
+                self.extra_context[key] = value
+
         return object_list
 
 
-class CompanyDetail(generic.DetailView):
+class CompanyDetail(LoginRequiredMixin, generic.DetailView):
     model = Company
     # template_name = 'leads/company_detail.html'
 
@@ -37,7 +68,7 @@ class CompanyDetail(generic.DetailView):
 
 class CompanyCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Company
-    fields = ["title", "legal_form", "title_latin", "website", "about", "status", "discounts", "manager"]
+    fields = ["title", "legal_form", "title_latin", "website", "about", "status", "partners","discounts", "manager"]
     success_message = "New company has been successfully created"
 
     def get_initial(self):
@@ -46,15 +77,19 @@ class CompanyCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView)
         for key, value in self.request.GET.items():
             context[key] = value
         return context
+    
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
 
 class CompanyUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Company
-    fields = ["title", "legal_form", "title_latin", "website", "about", "status", "discounts", "manager"]
+    fields = ["title", "legal_form", "title_latin", "website", "about", "status", "partners", "discounts", "manager"]
     success_message = "Company has been successfully updated"
 
 
-class PersonDetail(generic.DetailView):
+class PersonDetail(LoginRequiredMixin, generic.DetailView):
     model = Person
 
 
@@ -65,6 +100,7 @@ class PersonCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     success_message = "New person has been successfully created"
 
     def get_initial(self):
+        print(self.request.GET)
         return self.request.GET
         # Other options:
 
@@ -87,7 +123,7 @@ class PersonCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
         #     return {"company": company}
 
 
-class PersonUpdate(generic.UpdateView):
+class PersonUpdate(LoginRequiredMixin, generic.UpdateView):
     model = Person
     fields = "__all__"
     success_message = "Person has been successfully updated"

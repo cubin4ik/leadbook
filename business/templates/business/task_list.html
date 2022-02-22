@@ -1,0 +1,10 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<form method="GET" class="form-inline d-flex md-form mr-auto mb-2 form-sm mt-0">
+    <input type="search" id="site-search" name="q" placeholder="Search" {% if q %} value="{{ q }}"{% endif %} aria-label="Search" class="form-control flex-fill w-auto">
+    <a href="{% url 'business:project-create' %}" class="btn btn-outline-info ml-2" data-toggle="tooltip" data-placement="right" title="Add new project">
+        create
+    </a>
+</form>
+{% include 'business/task_list_snippet.html' %}
+{% endblock content %}

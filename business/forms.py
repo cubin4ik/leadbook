@@ -3,7 +3,6 @@ from .models import Project, ProjectCompany
 
 
 class ProjectCreateForm(ModelForm):
-
     class Meta:
         model = Project
         exclude = ["company"]
@@ -12,7 +11,7 @@ class ProjectCreateForm(ModelForm):
         }
 
 
-class ProjectCompanyInline(ModelForm):
+class ProjectCompanyForm(ModelForm):
     class Meta:
         model = ProjectCompany
         fields = ("company", "role")
@@ -21,8 +20,8 @@ class ProjectCompanyInline(ModelForm):
 ProjectInlineFormSet = inlineformset_factory(
     Project,
     ProjectCompany,
+    form=ProjectCompanyForm,
+    extra=1,
     can_delete=True,
-    form=ProjectCompanyInline,
-    extra=3,
-    max_num=4
+    can_order=False
 )

@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserRegisterForm
+from django.views.generic import UpdateView
+from .models import User
 
 
 def register(request):
@@ -10,14 +15,21 @@ def register(request):
             username = form.cleaned_data.get("username")
             form.save()
             message = messages.success(request, f"User {username} has been created successfully")
-            return redirect("home")
+            return redirect("dashboard:home")
     else:
         form = UserRegisterForm()
     return render(request, 'accounts/register.html', {"form": form})
 
 
+@login_required
 def profile(request):
     return render(request, "accounts/profile.html")
+
+
+class UserUpdate(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ["first_name", "last_name", "email", "profile_img", "widgets"]
+    success_url = reverse_lazy("accounts:profile")
 
 
 # class RegisterView(View):

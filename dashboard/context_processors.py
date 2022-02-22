@@ -3,31 +3,58 @@
 
 from datetime import date, timedelta
 from django.utils import timezone
-from .scripts.apihandle import ParseAPI
+from .scripts.api_handler import ParseAPI
 from leads.models import Company
-from business.models import Reminder, Project
+from business.models import Task, Project
+
+
+class Widgets:
+    """Widgets for specified user"""
+
+    def __init__(self, user):
+        self.user = user
+
+    @staticmethod
+    def get_today():
+        return date.today().strftime('%d %b')
+
+    @staticmethod
+    def get_currency():
+        return round(get_currency())
+
+    def get_leads(self):
+        return Company.objects.filter(manager=self.user).count
+
+    def get_new_leads(self):
+        time_threshold = timezone.now() - timedelta(days=15)
+        new_leads = Company.objects.filter(manager=self.user, date_created__gt=time_threshold).count
+        return new_leads
+
+    def get_tasks(self):
+        return Task.objects.filter(executor=self.user).count
+
+    def get_tasks_done(self):
+        return Task.objects.filter(executor=self.user, done=True).count
+
+    def get_projects(self):
+        return Project.objects.filter(manager=self.user).count
+
+    def get_hot_leads(self):
+        return Company.get_hot_leads(self.user)
 
 
 def summary(request):
     return {
         "global_week": date.today().isocalendar()[1],
-        "global_currency": 85,  # get_currency(),
-        "global_tasks": get_tasks(),
-        "global_tasks_done": get_tasks_done(),
-        "global_projects": get_projects(),
-        "global_leads": get_leads(),
-        "global_new_leads": get_new_leads()
+        "global_currency": Widgets.get_currency(),
+
+        # Below queryset functions are to serve specific users and are not global
+        # "global_tasks": get_tasks(),
+        # "global_tasks_done": get_tasks_done(),
+        # "global_projects": get_projects(),
+        # "global_leads": get_leads(),
+        # "global_new_leads": get_new_leads()
     }
-
-
-def get_leads():
-    return Company.objects.count
-
-
-def get_new_leads():
-    time_threshold = timezone.now() - timedelta(days=15)
-    new_leads = Company.objects.filter(date_added__gt=time_threshold).count
-    return new_leads
 
 
 def get_currency():
@@ -46,16 +73,6 @@ def get_currency():
         if currency == "EUR":
             value = child.find('Value').text
 
-    return value
+    return float(value.replace(",", "."))
 
 
-def get_tasks():
-    return Reminder.objects.count
-
-
-def get_tasks_done():
-    return Reminder.objects.filter(done=True).count
-
-
-def get_projects():
-    return Project.objects.count

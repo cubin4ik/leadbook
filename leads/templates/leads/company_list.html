@@ -1,20 +1,28 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
-<form method="GET" class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
-    <a href="{% url 'leads:companies-create' %}" class="mr-3">
-        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-        </svg>
+<form method="GET" class="form-inline d-flex md-form mr-auto mb-2 form-sm mt-0">
+    <input type="search" id="site-search" name="q" placeholder="Search" {% if q %} value="{{ q }}"{% endif %} aria-label="Search" class="form-control flex-fill w-auto">
+<!--    <a href="{% url 'leads:companies' %}?manager={{ user.pk }}" class="btn btn-outline-info ml-2">only mine</a>-->
+    <a href="{% url 'leads:companies-create' %}" class="btn btn-outline-info ml-2" data-toggle="tooltip" data-placement="right" title="Add new company">
+        create
+        <!--        <svg xmlns="http://www.w3.org/2000/svg" width="1.7em" height="1.7em" fill="currentColor" class="bi bi-plus-circle-fill text-info" viewBox="0 0 16 16">-->
+        <!--            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>-->
+        <!--        </svg>-->
     </a>
-    <input type="search" id="site-search" name="title" placeholder="{% if query_request %}{{ query_request }}{% else %}Search by name{% endif %}" aria-label="Search" class="form-control flex-fill w-auto">
 </form>
-<table class="table table-hover">
+{% if not company_list %}
+<div class="content-section">
+    <h4>You don't have any companies yet.</h4>
+    <p>
+        Fill free to <a href="{% url 'leads:companies-create' %}">create</a> new!
+    </p>
+</div>
+{% else %}
+<table class="table table-hover content-section">
     <thead>
     <tr>
         <th scope="col">Company</th>
-        <th scope="col">Contact</th>
+        <th scope="col" class="hide">Contact</th>
         <th scope="col">Status</th>
     </tr>
     </thead>
@@ -23,43 +31,42 @@
     <tr>
         <td scope="row"><a href="{% url 'leads:detail' company.pk %}" class="text-dark">{{ company.title }}, {{ company.legal_form }}</a></td>
         <td>
-            {% if company.person_set.all.first.pk %}
+            {% if company.get_main_contact %}
+            <a href="{% url 'leads:person-detail' company.get_main_contact.pk %}" class="text-secondary">
+                {{ company.get_main_contact }}
+            </a>
+            {% elif company.person_set.all %}
             <a href="{% url 'leads:person-detail' company.person_set.all.first.pk %}" class="text-secondary">
                 {{ company.person_set.all.first }}
             </a>
             {% endif %}
         </td>
-        <td>
-            {% if company.status|stringformat:"s" == "Active" %}
-            <span class="text-success">{{ company.status }}</span>
-            {% elif company.status|stringformat:"s" == "Inactive" %}
-            <span class="text-danger">{{ company.status }}</span>
-            {% else %}
-            <span class="text-warning">{{ company.status }}</span>
-            {% endif %}
+        <td class="hide">
+            <span class="text-{{ company.get_short_status.color }}">{{ company.get_short_status.status }}</span>
         </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+{% endif %}
 {% if is_paginated %}
 <hr>
 {% if page_obj.has_previous %}
-<a class="btn btn-outline-secondary mb-4" href="?page=1&title={{ query_request }}">First</a>
-<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.previous_page_number }}&title={{ query_request }}">Previous</a>
+<a class="btn btn-outline-secondary mb-4" href="?page=1&q={{ q }}&hot={{ hot }}">First</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.previous_page_number }}&q={{ q }}&hot={{ hot }}">Previous</a>
 {% endif %}
 
 {% for num in page_obj.paginator.page_range %}
 {% if page_obj.number == num %}
-<a class="btn btn-secondary mb-4" href="?page={{ num }}&title={{ query_request }}">{{ num }}</a>
+<a class="btn btn-secondary mb-4" href="?page={{ num }}&q={{ q }}&hot={{ hot }}">{{ num }}</a>
 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-<a class="btn btn-outline-secondary mb-4" href="?page={{ num }}&title={{ query_request }}">{{ num }}</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ num }}&q={{ q }}&hot={{ hot }}">{{ num }}</a>
 {% endif %}
 {% endfor %}
 
 {% if page_obj.has_next %}
-<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.next_page_number }}&title={{ query_request }}">Next</a>
-<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.paginator.num_pages }}&title={{ query_request }}">Last</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.next_page_number }}&q={{ q }}&hot={{ hot }}">Next</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.paginator.num_pages }}&q={{ q }}&hot={{ hot }}">Last</a>
 {% endif %}
 
 {% endif %}

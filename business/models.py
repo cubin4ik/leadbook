@@ -1,9 +1,11 @@
+import os
 from django.db import models
 from django.shortcuts import reverse
 
 
 class Event(models.Model):
-    # Type for the title
+
+    # Type for the task
     class EventTitle(models.TextChoices):
         PHONE = "TEL", "Phone call"
         EMAIL = "EMAIL", "Email"
@@ -33,12 +35,12 @@ class Event(models.Model):
         return reverse("business:event-detail", args=[self.id])
 
     def __str__(self):
-        return f"{self.title} ({self.date}): {self.company.all()}"
+        return f"{self.get_title_display()} with {[lead.title for lead in self.company.all()]} on {self.date.strftime('%Y-%m-%d %H:%M:%S')}"
 
 
-class Reminder(models.Model):  # TODO: rename to "Task"
+class Task(models.Model):  # TODO: rename to "Task"
 
-    class ReminderImportance(models.TextChoices):
+    class TaskImportance(models.TextChoices):
         URGENT = "4URG", "Urgent"
         HIGH = "3HI", "High"
         MEDIUM = "2MID", "Medium"
@@ -49,7 +51,7 @@ class Reminder(models.Model):  # TODO: rename to "Task"
     description = models.TextField(max_length=5000)
     due_time = models.DateTimeField()
     done = models.BooleanField(default=False)
-    importance = models.CharField(max_length=4, choices=ReminderImportance.choices, default=ReminderImportance.LOW)
+    importance = models.CharField(max_length=4, choices=TaskImportance.choices, default=TaskImportance.LOW)
 
     # test_choices = (
     #     ("TEST1", "Hello"),
@@ -64,8 +66,8 @@ class Reminder(models.Model):  # TODO: rename to "Task"
     company = models.ForeignKey("leads.Company", on_delete=models.SET_NULL, null=True)
     person = models.ForeignKey("leads.Person", on_delete=models.SET_NULL, null=True, blank=True)
     project = models.ForeignKey("Project", on_delete=models.SET_NULL, null=True, blank=True)
-    manager = models.ForeignKey("accounts.User", related_name="reminder_manager", null=True, on_delete=models.SET_NULL)
-    executor = models.ForeignKey("accounts.User", related_name="reminder_executor", null=True, on_delete=models.SET_NULL)
+    manager = models.ForeignKey("accounts.User", related_name="task_manager", null=True, on_delete=models.SET_NULL)
+    executor = models.ForeignKey("accounts.User", related_name="task_executor", null=True, on_delete=models.SET_NULL)
 
     class Meta:
         # sort by "the date" in descending order unless
@@ -73,7 +75,7 @@ class Reminder(models.Model):  # TODO: rename to "Task"
         ordering = ["done", "-importance", "due_time"]
 
     def get_absolute_url(self):
-        return reverse("business:reminder-detail", args=[self.id])
+        return reverse("business:task-detail", args=[self.id])
 
     def __str__(self):
         return self.task
@@ -116,6 +118,9 @@ class ProjectCompany(models.Model):
     project = models.ForeignKey("business.Project", on_delete=models.CASCADE)
     company = models.ForeignKey("leads.Company", on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ["-project__registry_date"]
+
     def __str__(self):
         return f"{self.company}: {self.role} ({self.project})"
 
@@ -136,10 +141,22 @@ class ProjectStage(models.Model):
 
 
 def project_file_path(instance, filename):
+    print(instance, filename)
     return f"projects/{instance.project.pk}/documents/{filename}"
 
 
-class ProjectDocument(models.Model):
+class Document(models.Model):
     project = models.ForeignKey("Project", on_delete=models.CASCADE)
     document = models.FileField(upload_to=project_file_path)
     description = models.CharField(max_length=500)
+
+    def get_absolute_url(self):
+        return reverse("business:project-detail", args=[self.project.id])
+
+    @property
+    def filename(self):
+        return os.path.basename(self.document.name)
+
+    @property
+    def filetype(self):
+        return os.path.splitext(self.document.name)[1][1:]

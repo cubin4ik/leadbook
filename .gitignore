@@ -207,6 +207,8 @@ content
 dump.json
 share.json
 .idea/
+post_data_update_1.txt
+post_data_update_2.txt
 
 # leadbook .idea/
 .idea/misc.xml

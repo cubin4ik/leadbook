@@ -1,16 +1,12 @@
 {% extends 'dashboard/base.html' %}
 {% block content %}
-<form class="form-inline d-flex md-form mr-auto mb-4 form-sm mt-0">
-    <a href="{% url 'business:project-create' %}" class="mr-3">
-        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
-            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
-            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-        </svg>
+<form method="GET" class="form-inline d-flex md-form mr-auto mb-2 form-sm mt-0">
+    <input type="search" id="site-search" name="q" placeholder="Search" {% if q %} value="{{ q }}"{% endif %} aria-label="Search" class="form-control flex-fill w-auto">
+    <a href="{% url 'business:project-create' %}" class="btn btn-outline-info ml-2" data-toggle="tooltip" data-placement="right" title="Add new project">
+        create
     </a>
-    <input class="form-control flex-fill w-auto" type="text" placeholder="Search" aria-label="Search">
 </form>
-<table class="table table-hover">
+<table class="table table-hover content-section">
     <thead>
     <tr>
         <th scope="col">Code</th>
@@ -27,8 +23,8 @@
             {% for partnership in project.projectcompany_set.all %}
             <a class="text-muted" href="{% url 'leads:detail' partnership.company.pk %}">{{ partnership.company }}</a>{% if not forloop.last %}, {% endif %}
             {% endfor %}
+            {% endif %}
         </td>
-        {% endif %}
         <td>
             {% if project.status|stringformat:"s" == "Completed" %}
             <span class="text-success">{{ project.status }}</span>
@@ -45,21 +41,21 @@
 {% if is_paginated %}
 <hr>
 {% if page_obj.has_previous %}
-<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+<a class="btn btn-outline-secondary mb-4" href="?page=1&q={{ q }}">First</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.previous_page_number }}&q={{ q }}">Previous</a>
 {% endif %}
 
 {% for num in page_obj.paginator.page_range %}
 {% if page_obj.number == num %}
-<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+<a class="btn btn-secondary mb-4" href="?page={{ num }}&q={{ q }}">{{ num }}</a>
 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ num }}&q={{ q }}">{{ num }}</a>
 {% endif %}
 {% endfor %}
 
 {% if page_obj.has_next %}
-<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.next_page_number }}&q={{ q }}">Next</a>
+<a class="btn btn-outline-secondary mb-4" href="?page={{ page_obj.paginator.num_pages }}&q={{ q }}">Last</a>
 {% endif %}
 
 {% endif %}
