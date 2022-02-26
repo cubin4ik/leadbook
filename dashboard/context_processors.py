@@ -20,7 +20,7 @@ class Widgets:
 
     @staticmethod
     def get_currency():
-        return round(get_currency())
+        return #round(get_currency())
 
     def get_leads(self):
         return Company.objects.filter(manager=self.user).count
