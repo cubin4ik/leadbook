@@ -151,8 +151,8 @@ AUTH_USER_MODEL = 'accounts.User'
 # Email server
 # EMAIL_HOST = 'smtp.mail.ru'
 # EMAIL_PORT = 2525
-# EMAIL_HOST_USER = "cubin4ik@mail.ru"
-# EMAIL_HOST_PASSWORD = "qugbqyrlobkfswyk"
+# EMAIL_HOST_USER = "email"
+# EMAIL_HOST_PASSWORD = "password"
 # EMAIL_USE_TLS = True
 
 # For commissioning by administrators
