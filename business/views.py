@@ -6,7 +6,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import generic
 from datetime import datetime, timedelta
 from .models import Project, Task, Event, ProjectCompany, Document
-from .forms import ProjectCreateForm, ProjectInlineFormSet
+from .forms import EventForm, ProjectCreateForm, ProjectInlineFormSet
 
 
 class ProjectList(LoginRequiredMixin, generic.ListView):
@@ -212,7 +212,8 @@ class ProjectDelete(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView)
 class EventCreate(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     # TODO: add attachments
     model = Event
-    fields = "__all__"
+    form_class = EventForm
+    # fields = "__all__"
     success_message = "New event has been successfully created"
 
     def get_initial(self):
@@ -234,7 +235,8 @@ class EventList(LoginRequiredMixin, generic.ListView):
 
 class EventUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = Event
-    fields = "__all__"
+    form_class = EventForm
+    # fields = "__all__"
     success_message = "Event has been successfully updated"
 
 

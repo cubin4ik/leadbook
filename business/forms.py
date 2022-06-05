@@ -1,5 +1,16 @@
-from django.forms import ModelForm, inlineformset_factory, MultipleChoiceField
-from .models import Project, ProjectCompany
+from django.forms import ModelForm, inlineformset_factory, MultipleChoiceField, DateTimeInput
+from .models import Event, Project, ProjectCompany
+
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+        widgets = {
+            "date": DateTimeInput(
+                attrs={'type': 'datetime-local'},
+            )
+        }
 
 
 class ProjectCreateForm(ModelForm):
