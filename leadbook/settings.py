@@ -18,9 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '@o-(2(xz7ijyr58i(-e0*%su^vz0+j08+8@+awjzxxya#+8xc@'
-
 with open(os.path.join(BASE_DIR, "leadbook", "key.txt"), "r") as secret_key:
     SECRET_KEY = secret_key.read()
 
