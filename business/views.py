@@ -189,8 +189,6 @@ class ProjectUpdate(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView)
             return redirect(self.get_success_url())
         else:
             print(f"Aborted: {form.is_valid()} {inline_formset.is_valid()}")
-            for key, value in inline_formset:
-                print(key, value)
             return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
