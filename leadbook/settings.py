@@ -144,23 +144,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_USER_MODEL = 'accounts.User'
 
 # LOGIN_REDIRECT_URL = 'dashboard:home'
-
-# Email server
-# EMAIL_HOST = 'smtp.mail.ru'
-# EMAIL_PORT = 2525
-# EMAIL_HOST_USER = "email"
-# EMAIL_HOST_PASSWORD = "password"
-# EMAIL_USE_TLS = True
-
-# For commissioning by administrators
-# SERVER_EMAIL = EMAIL_HOST_USER
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-# To send emails simply use the following template:
-# from django.core.mail import send_mail
-# send_mail(
-#     'A new project has been created',
-#     f'Hello, this is a report for a new project being created: TEST',
-#     'cubin4ik@mail.ru',
-#     ['cubin4ik@mail.ru']
-# )
