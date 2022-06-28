@@ -4,6 +4,7 @@ A lightweight customer relationship management system.
 ## Dahsboard
 
 Dashboard with custom widgets showing managers up to date stats and information. Based on simply analysis it suggests a list of customers that require to be contacted as soon as possible.
+
 ![interface](https://user-images.githubusercontent.com/61466454/176147331-510da13b-66eb-41ba-a176-9d3ca6ebc18f.JPG)
 
 ## Contact card
